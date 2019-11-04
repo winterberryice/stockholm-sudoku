@@ -8,9 +8,10 @@ import { environment } from '../environments/environment';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { GameComponent } from './components/game/game.component';
+import { BoardComponent } from './components/board/board.component';
 
 @NgModule({
-  declarations: [AppComponent, GameComponent],
+  declarations: [AppComponent, GameComponent, BoardComponent],
   imports: [
     BrowserModule,
     StoreModule.forRoot(appReducer),

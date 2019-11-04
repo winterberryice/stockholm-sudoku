@@ -1,0 +1,7 @@
+<ul>
+  <div *ngFor="let row of board; let i = index">
+    <div class="cell" *ngFor="let column of board[i]; let j = index">
+      r: {{ i }}, c: {{ j }}
+    </div>
+  </div>
+</ul>

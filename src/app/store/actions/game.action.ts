@@ -2,7 +2,8 @@ import { Action } from '@ngrx/store';
 
 export enum EGameActions {
   Increment = 'INCREMENT',
-  Decrement = 'DECREMENT'
+  Decrement = 'DECREMENT',
+  FillCell = 'Fill cell'
 }
 
 export class IncrementCounter implements Action {
