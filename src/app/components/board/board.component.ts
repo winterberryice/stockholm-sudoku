@@ -32,6 +32,7 @@ export class BoardComponent implements OnInit {
       }
     }
 
+    // TODO dispatch board to store
     console.warn('board', this.board);
   }
 }

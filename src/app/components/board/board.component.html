@@ -1,7 +1,16 @@
-<ul>
-  <div *ngFor="let row of board; let i = index">
-    <div class="cell" *ngFor="let column of board[i]; let j = index">
-      r: {{ i }}, c: {{ j }}
-    </div>
-  </div>
-</ul>
+<div class="container-grid">
+  <ng-container *ngFor="let row of board; let i = index">
+    <ng-container *ngFor="let column of board[i]; let j = index">
+      <div
+        [ngStyle]="{
+          'grid-row': i + 1,
+          'grid-column': j + 1
+        }"
+      >
+        <app-cell [row]="i" [column]="j"></app-cell>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+
+<hr />
