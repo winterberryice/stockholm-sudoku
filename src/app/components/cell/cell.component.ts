@@ -10,10 +10,10 @@ export class CellComponent implements OnInit {
   @Input() column: number;
 
   constructor() {
-    console.log('cell ctor', this.row, this.column);
+    // console.log('cell ctor', this.row, this.column);
   }
 
   ngOnInit() {
-    console.log('cell ngOnInit', this.row, this.column);
+    // console.log('cell ngOnInit', this.row, this.column);
   }
 }
