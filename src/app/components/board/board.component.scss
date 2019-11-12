@@ -1,17 +1,44 @@
+$board-color: #808080;
+
 .container-grid {
   display: grid;
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-.cell {
-  border: 1px solid black;
-  height: 70px;
-  width: 70px;
-  display: inline-block;
+.cell-container {
+  width: 100%;
+  height: 100%;
+  border-right: 1px solid $board-color;
+  border-bottom: 1px solid $board-color;
 }
 
-.row {
+div.container-grid div:nth-child(9n -8) {
+  border-left: 2px solid $board-color;
+}
+div.container-grid div:nth-child(9n -6) {
+  border-right: 2px solid $board-color;
+}
+div.container-grid div:nth-child(9n -3) {
+  border-right: 2px solid $board-color;
+}
+div.container-grid div:nth-child(9n) {
+  border-right: 2px solid $board-color;
 }
 
-.column {
-  display: inline-block;
+div.container-grid div:nth-child(n + 1):nth-child(-n + 9) {
+  border-top: 2px solid $board-color;
+}
+div.container-grid div:nth-child(n + 19):nth-child(-n + 27) {
+  border-bottom: 2px solid $board-color;
+}
+div.container-grid div:nth-child(n + 46):nth-child(-n + 54) {
+  border-bottom: 2px solid $board-color;
+}
+div.container-grid div:nth-child(n + 73):nth-child(-n + 81) {
+  border-bottom: 2px solid $board-color;
 }

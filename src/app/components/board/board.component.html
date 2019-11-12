@@ -1,7 +1,8 @@
-<div #myDiv class="container-grid">
+<div class="container-grid">
   <ng-container *ngFor="let row of board; let i = index">
     <ng-container *ngFor="let column of board[i]; let j = index">
       <div
+        class="cell-container"
         [ngStyle]="{
           'grid-row': i + 1,
           'grid-column': j + 1
