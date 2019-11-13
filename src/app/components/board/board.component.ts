@@ -7,6 +7,7 @@ import { selectBoard } from 'src/app/store/selectors/game.selector';
 export interface BoardCell {
   row: number;
   column: number;
+  selected: boolean;
 }
 
 @Component({

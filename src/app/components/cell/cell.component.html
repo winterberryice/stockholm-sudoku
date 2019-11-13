@@ -1,4 +1,8 @@
 <div class="h-full relative w-full">
   <div class="pl-1 text-xs select-none">r:{{ row }}:c{{ column }}</div>
-  <button (click)="selectCell()" class="absolute inset-0 h-full w-full"></button>
+  <button
+    (click)="selectCell()"
+    class="absolute inset-0 h-full w-full"
+  ></button>
+  {{ (boardCell$ | async)?.selected }}
 </div>
