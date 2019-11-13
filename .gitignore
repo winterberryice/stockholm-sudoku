@@ -37,4 +37,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# custom ignore
+
 .history
+src/styles/tailwind/tailwind.css
