@@ -16,4 +16,8 @@ export class CellComponent implements OnInit {
   ngOnInit() {
     // console.log('cell ngOnInit', this.row, this.column);
   }
+
+  selectCell() {
+    console.warn('cell selected: ', this.row, this.column);
+  }
 }
