@@ -1,6 +1,6 @@
 <div class="container-grid">
-  <ng-container *ngFor="let row of board; let i = index">
-    <ng-container *ngFor="let column of board[i]; let j = index">
+  <ng-container *ngFor="let row of board$ | async; let i = index">
+    <ng-container *ngFor="let column of row; let j = index">
       <div
         class="cell-container"
         [ngStyle]="{

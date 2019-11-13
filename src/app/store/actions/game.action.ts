@@ -3,7 +3,8 @@ import { Action } from '@ngrx/store';
 export enum EGameActions {
   Increment = 'INCREMENT',
   Decrement = 'DECREMENT',
-  FillCell = 'Fill cell'
+  FillCell = 'Fill cell',
+  NewGame = 'New game'
 }
 
 export class IncrementCounter implements Action {
@@ -14,4 +15,8 @@ export class DecrementCounter implements Action {
   public readonly type = EGameActions.Decrement;
 }
 
-export type GameActions = IncrementCounter | DecrementCounter;
+export class NewGame implements Action {
+  public readonly type = EGameActions.NewGame;
+}
+
+export type GameActions = NewGame | IncrementCounter | DecrementCounter;

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { IAppState } from 'src/app/store/states/app.state';
+import { NewGame } from 'src/app/store/actions/game.action';
+import { selectBoard } from 'src/app/store/selectors/game.selector';
 
 export interface BoardCell {
   row: number;
@@ -11,28 +15,11 @@ export interface BoardCell {
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
-  readonly SIZE = 9;
-  board: BoardCell[][];
+  board$ = this._store.pipe(select(selectBoard));
 
-  constructor() {
-    this.initBoard();
-  }
+  constructor(private _store: Store<IAppState>) {}
 
-  ngOnInit() {}
-
-  private initBoard() {
-    this.board = [];
-    for (let i = 0; i < this.SIZE; i++) {
-      this.board[i] = [];
-      for (let j = 0; j < this.SIZE; j++) {
-        this.board[i][j] = {
-          row: i,
-          column: j
-        };
-      }
-    }
-
-    // TODO dispatch board to store
-    console.warn('board', this.board);
+  ngOnInit() {
+    this._store.dispatch(new NewGame());
   }
 }
