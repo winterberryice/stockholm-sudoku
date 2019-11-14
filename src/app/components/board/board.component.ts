@@ -23,4 +23,13 @@ export class BoardComponent implements OnInit {
   ngOnInit() {
     this._store.dispatch(new NewGame());
   }
+
+  trackItem(_index: number, item: BoardCell) {
+    const id = '' + item.row + item.column;
+    return id;
+  }
+
+  trackRow(index: number, _item: BoardCell[]) {
+    return index;
+  }
 }
