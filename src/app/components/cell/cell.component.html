@@ -1,8 +1,12 @@
-<div class="h-full relative w-full">
-  <div class="pl-1 text-xs select-none">r:{{ row }}:c{{ column }}</div>
+<div
+  class="h-full relative w-full"
+  [ngClass]="(boardCell$ | async)?.selected == true ? 'bg-blue-200' : ''"
+>
+  <div class="debug-info pl-1 text-xs select-none" style="font-size: 0.6rem;">
+    r:{{ row }}:c{{ column }}, {{ (boardCell$ | async)?.selected }}
+  </div>
   <button
     (click)="selectCell()"
     class="absolute inset-0 h-full w-full"
   ></button>
-  {{ (boardCell$ | async)?.selected }}
 </div>
