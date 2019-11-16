@@ -25,10 +25,7 @@ export const gameReducer = (
         counter: state.counter - 1
       };
     case EGameActions.NewGame:
-      return {
-        ...state,
-        board: stateFromNewGame()
-      };
+      return stateFromNewGame();
     case EGameActions.SelectCell:
       return stateFromSelectCell(state, action.payload);
     case EGameActions.FillCellValue:
@@ -56,7 +53,7 @@ function produceNewBoard(
   return newBoard;
 }
 
-function stateFromNewGame() {
+function stateFromNewGame(): IGameState {
   const board: BoardCell[][] = [];
   for (let i = 0; i < SIZE; i++) {
     board[i] = [];
@@ -70,7 +67,11 @@ function stateFromNewGame() {
     }
   }
 
-  return board;
+  return {
+    board,
+    counter: 0,
+    hasSelectedCell: false
+  };
 }
 
 function stateFromSelectCell(
