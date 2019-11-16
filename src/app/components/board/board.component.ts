@@ -8,6 +8,7 @@ export interface BoardCell {
   row: number;
   column: number;
   selected: boolean;
+  cellValue: number;
 }
 
 class KeyboardManager {

@@ -6,7 +6,8 @@ import {
   FillCellValuePayload
 } from '../actions/game.action';
 import { BoardCell } from 'src/app/components/board/board.component';
-import { State } from '@ngrx/store';
+
+const SIZE = 9;
 
 export const gameReducer = (
   state = initialGameState,
@@ -26,7 +27,7 @@ export const gameReducer = (
     case EGameActions.NewGame:
       return {
         ...state,
-        board: initBoard()
+        board: stateFromNewGame()
       };
     case EGameActions.SelectCell:
       return stateFromSelectCell(state, action.payload);
@@ -37,34 +38,25 @@ export const gameReducer = (
   }
 };
 
-function stateFromSelectCell(
-  state: IGameState,
-  payload: SelectCellActionPayload
-): IGameState {
+function produceNewBoard(
+  board: BoardCell[][],
+  transformFn: (cell: BoardCell) => BoardCell
+): BoardCell[][] {
   const newBoard: BoardCell[][] = [];
 
-  state.board.forEach(element => {
+  board.forEach(element => {
     const rowArray: BoardCell[] = [];
     element.forEach(cell => {
-      let isSelected = false;
-      if (cell.row === payload.row && cell.column === payload.column) {
-        isSelected = true;
-      }
-      const newCell: BoardCell = { ...cell, selected: isSelected };
+      const newCell: BoardCell = transformFn(cell);
       rowArray.push(newCell);
     });
     newBoard.push(rowArray);
   });
 
-  return {
-    ...state,
-    board: newBoard
-  };
+  return newBoard;
 }
 
-const SIZE = 9;
-
-function initBoard() {
+function stateFromNewGame() {
   const board: BoardCell[][] = [];
   for (let i = 0; i < SIZE; i++) {
     board[i] = [];
@@ -72,7 +64,8 @@ function initBoard() {
       board[i][j] = {
         row: i,
         column: j,
-        selected: false
+        selected: false,
+        cellValue: null
       };
     }
   }
@@ -81,9 +74,44 @@ function initBoard() {
   return board;
 }
 
+function stateFromSelectCell(
+  state: IGameState,
+  payload: SelectCellActionPayload
+): IGameState {
+  let hasSelectedCell = false;
+
+  const newBoard: BoardCell[][] = produceNewBoard(state.board, cell => {
+    let isSelected = false;
+    if (cell.row === payload.row && cell.column === payload.column) {
+      isSelected = true;
+      hasSelectedCell = true;
+    }
+    return { ...cell, selected: isSelected };
+  });
+
+  return {
+    ...state,
+    board: newBoard,
+    hasSelectedCell
+  };
+}
+
 function stateFromFillCellValue(
   state: IGameState,
   payload: FillCellValuePayload
 ): IGameState {
-  return { ...state };
+  const { value } = payload;
+  let newBoard: BoardCell[][] = state.board;
+
+  if (state.hasSelectedCell) {
+    newBoard = produceNewBoard(state.board, cell => {
+      let cellValue: number = null;
+      if (cell.selected) {
+        cellValue = value;
+      }
+      return { ...cell, cellValue };
+    });
+  }
+
+  return { ...state, board: newBoard };
 }
