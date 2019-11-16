@@ -5,7 +5,8 @@ export enum EGameActions {
   Decrement = 'DECREMENT',
   FillCell = 'Fill cell',
   NewGame = 'New game',
-  SelectCell = 'Select cell'
+  SelectCell = 'Select cell',
+  FillCellValue = ' Fill cell value'
 }
 
 export class IncrementCounter implements Action {
@@ -30,8 +31,18 @@ export class SelectCell implements Action {
   constructor(readonly payload: SelectCellActionPayload) {}
 }
 
+export interface FillCellValuePayload {
+  value: number;
+}
+
+export class FillCellValue implements Action {
+  public readonly type = EGameActions.FillCellValue;
+  constructor(readonly payload: FillCellValuePayload) {}
+}
+
 export type GameActions =
   | NewGame
   | IncrementCounter
   | DecrementCounter
-  | SelectCell;
+  | SelectCell
+  | FillCellValue;

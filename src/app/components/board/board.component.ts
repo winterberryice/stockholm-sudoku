@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/states/app.state';
-import { NewGame } from 'src/app/store/actions/game.action';
+import { NewGame, FillCellValue } from 'src/app/store/actions/game.action';
 import { selectBoard } from 'src/app/store/selectors/game.selector';
 
 export interface BoardCell {
@@ -18,7 +18,7 @@ class KeyboardManager {
   keyupHandler(e: KeyboardEvent) {
     const keyValue = parseInt(e.key, 10);
     if (!isNaN(keyValue) && keyValue >= 1 && keyValue <= 9) {
-      // TODO dispatch key click
+      this._store.dispatch(new FillCellValue({ value: keyValue }));
     }
   }
 
