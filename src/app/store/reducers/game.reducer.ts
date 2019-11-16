@@ -2,9 +2,11 @@ import { initialGameState, IGameState } from '../states/game.state';
 import {
   EGameActions,
   GameActions,
-  SelectCellActionPayload
+  SelectCellActionPayload,
+  FillCellValuePayload
 } from '../actions/game.action';
 import { BoardCell } from 'src/app/components/board/board.component';
+import { State } from '@ngrx/store';
 
 export const gameReducer = (
   state = initialGameState,
@@ -27,22 +29,21 @@ export const gameReducer = (
         board: initBoard()
       };
     case EGameActions.SelectCell:
-      return {
-        ...state,
-        board: getBoardAfterCellSelect(state.board, action.payload)
-      };
+      return stateFromSelectCell(state, action.payload);
+    case EGameActions.FillCellValue:
+      return stateFromFillCellValue(state, action.payload);
     default:
       return state;
   }
 };
 
-function getBoardAfterCellSelect(
-  board: BoardCell[][],
+function stateFromSelectCell(
+  state: IGameState,
   payload: SelectCellActionPayload
-): BoardCell[][] {
-  const result: BoardCell[][] = [];
+): IGameState {
+  const newBoard: BoardCell[][] = [];
 
-  board.forEach(element => {
+  state.board.forEach(element => {
     const rowArray: BoardCell[] = [];
     element.forEach(cell => {
       let isSelected = false;
@@ -52,10 +53,13 @@ function getBoardAfterCellSelect(
       const newCell: BoardCell = { ...cell, selected: isSelected };
       rowArray.push(newCell);
     });
-    result.push(rowArray);
+    newBoard.push(rowArray);
   });
 
-  return result;
+  return {
+    ...state,
+    board: newBoard
+  };
 }
 
 const SIZE = 9;
@@ -75,4 +79,11 @@ function initBoard() {
 
   console.warn('board created: ', board);
   return board;
+}
+
+function stateFromFillCellValue(
+  state: IGameState,
+  payload: FillCellValuePayload
+): IGameState {
+  return { ...state };
 }

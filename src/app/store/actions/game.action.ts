@@ -3,7 +3,6 @@ import { Action } from '@ngrx/store';
 export enum EGameActions {
   Increment = 'INCREMENT',
   Decrement = 'DECREMENT',
-  FillCell = 'Fill cell',
   NewGame = 'New game',
   SelectCell = 'Select cell',
   FillCellValue = ' Fill cell value'
