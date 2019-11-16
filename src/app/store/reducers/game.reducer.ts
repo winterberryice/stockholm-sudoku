@@ -105,7 +105,7 @@ function stateFromFillCellValue(
 
   if (state.hasSelectedCell) {
     newBoard = produceNewBoard(state.board, cell => {
-      let cellValue: number = null;
+      let cellValue: number = cell.cellValue;
       if (cell.selected) {
         cellValue = value;
       }

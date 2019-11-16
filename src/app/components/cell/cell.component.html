@@ -5,8 +5,7 @@
   <div class="debug-info pl-1 text-xs select-none" style="font-size: 0.6rem;">
     r:{{ row }}:c{{ column }}, {{ (boardCell$ | async)?.selected }}
   </div>
-  <button
-    (click)="selectCell()"
-    class="absolute inset-0 h-full w-full"
-  ></button>
+  <button (click)="selectCell()" class="absolute inset-0 h-full w-full">
+    {{ (boardCell$ | async)?.cellValue }}
+  </button>
 </div>
