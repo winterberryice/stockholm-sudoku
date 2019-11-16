@@ -42,6 +42,9 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   constructor(private _store: Store<IAppState>) {
     this._keyboardManager = new KeyboardManager(_store);
+    _store.subscribe(state => {
+      console.log('subscribe: ', state.game);
+    });
   }
 
   ngOnInit() {

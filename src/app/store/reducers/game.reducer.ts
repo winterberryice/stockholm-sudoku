@@ -70,7 +70,6 @@ function stateFromNewGame() {
     }
   }
 
-  console.warn('board created: ', board);
   return board;
 }
 

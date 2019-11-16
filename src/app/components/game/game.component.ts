@@ -17,9 +17,7 @@ export class GameComponent implements OnInit {
 
   constructor(private _store: Store<IAppState>) {}
 
-  ngOnInit() {
-    console.log('game component init: ', this);
-  }
+  ngOnInit() {}
 
   onClick(value: number) {
     if (value < 0) {

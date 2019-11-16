@@ -32,6 +32,5 @@ export class CellComponent implements OnInit {
         column: this.column
       })
     );
-    console.warn('cell selected: ', this.row, this.column);
   }
 }
