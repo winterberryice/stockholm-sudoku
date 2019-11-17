@@ -12,6 +12,18 @@ const example_grid = [
 
 const empty_grid = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0]
+];
+
+const _grid = [
+  [0, 2, 1, 0, 0, 0, 0, 0, 0],
   [0, 1, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -22,36 +34,107 @@ const empty_grid = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
-function solveSudoku2(grid: number[][]): boolean {
-  function noConflictsInGrid(sudoku_grid: number[][]): boolean {
-    for (let row = 0; row < 9; row++) {
-      for (let col = 0; col < 9; col++) {
-        if (sudoku_grid[row][col] !== 0) {
-          if (
-            cellHasConflicts(sudoku_grid, row, col)
-            // !noConflicts(
-            //   sudoku_grid,
-            //   row ,
-            //   col ,
-            //   sudoku_grid[row ][col ]
-            // )
-          ) {
-            return false;
-          }
-        }
+export function generateBoard() {
+  console.warn('generated Board');
 
-        // for (let num = 1; num <= 9; num++) {
-        // }
-      }
-    }
-    return true;
+  function randomFill() {
+    const coordsToGenerate = [
+      [0, 0],
+      // [0, 1],
+      [0, 2],
+      [3, 3],
+      //  [3, 4],
+      [3, 5],
+      [6, 6],
+      //  [6, 7],
+      [6, 8],
+      [7, 0],
+      //  [7, 1],
+      [7, 2],
+      [1, 6],
+      //  [1, 7],
+      [1, 8],
+      [4, 0],
+      //   [0, 4],
+      [2, 5],
+      [2, 2],
+      //   [4, 6],
+      [5, 3],
+      [5, 7],
+      //   [8, 2],
+      [8, 5],
+      [8, 8]
+    ];
+
+    const _board = empty_grid.map(function(arr) {
+      return arr.slice();
+    });
+
+    coordsToGenerate.forEach(item => {
+      _board[item[0]][item[1]] = getRandomInt(1, 9);
+    });
+
+    return _board;
   }
 
+  let canSolve = false;
+  let board = randomFill();
+
+  while (!canSolve) {
+    canSolve = noConflictsInGrid(board);
+    if (!canSolve) {
+      board = randomFill();
+    } else {
+      canSolve = solveSudoku2(board);
+    }
+  }
+
+  printGrid(board);
+  console.log('_________________\n\n\n');
+
+  // const _canSolveSudoku = solveSudoku2(board);
+
+  return board;
+}
+
+function canSolveSudoku(grid: number[][]) {}
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function solveSudoku2(grid: number[][]): boolean {
   if (noConflictsInGrid(grid)) {
     return solveSudoku(grid, 0, 0);
   }
 
   return false;
+}
+
+function noConflictsInGrid(sudoku_grid: number[][]): boolean {
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      if (sudoku_grid[row][col] !== 0) {
+        if (
+          cellHasConflicts(sudoku_grid, row, col)
+          // !noConflicts(
+          //   sudoku_grid,
+          //   row ,
+          //   col ,
+          //   sudoku_grid[row ][col ]
+          // )
+        ) {
+          return false;
+        }
+      }
+
+      // for (let num = 1; num <= 9; num++) {
+      // }
+    }
+  }
+  return true;
 }
 
 function cellHasConflicts(grid: number[][], row, col): boolean {
@@ -100,22 +183,28 @@ function cellHasConflicts(grid: number[][], row, col): boolean {
 
 export default function test() {
   console.warn('test');
-  const _canSolveSudoku = solveSudoku2(empty_grid);
 
-  console.time('time 1');
-  console.log('unsolved');
-  printGrid(example_grid);
-  solveSudoku(example_grid, 0, 0);
-  printGrid(example_grid);
-  console.timeEnd('time 1');
+  console.time('board generation');
 
-  console.log('\n\n\n');
+  generateBoard();
+  console.timeEnd('board generation');
 
-  console.time('time 2');
-  printGrid(empty_grid);
-  solveSudoku(empty_grid, 0, 0);
-  printGrid(empty_grid);
-  console.timeEnd('time 2');
+  // const _canSolveSudoku = solveSudoku2(empty_grid);
+
+  // console.time('time 1');
+  // console.log('unsolved');
+  // printGrid(example_grid);
+  // solveSudoku(example_grid, 0, 0);
+  // printGrid(example_grid);
+  // console.timeEnd('time 1');
+
+  // console.log('\n\n\n');
+
+  // console.time('time 2');
+  // printGrid(empty_grid);
+  // solveSudoku(empty_grid, 0, 0);
+  // printGrid(empty_grid);
+  // console.timeEnd('time 2');
 }
 
 // recursive algo
