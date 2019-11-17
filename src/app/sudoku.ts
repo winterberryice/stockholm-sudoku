@@ -1,4 +1,4 @@
-let example_grid = [
+const example_grid = [
   [0, 0, 8, 4, 0, 3, 5, 0, 6],
   [0, 0, 3, 1, 0, 2, 0, 0, 4],
   [0, 4, 5, 7, 0, 0, 0, 9, 0],
@@ -92,8 +92,8 @@ function isColOk(grid, col, num) {
   return true;
 }
 function isBoxOk(grid, row, col, num) {
-  row = (row / 3) * 3;
-  col = (col / 3) * 3;
+  row = Math.floor(row / 3) * 3;
+  col = Math.floor(col / 3) * 3;
 
   for (let r = 0; r < 3; r++) {
     for (let c = 0; c < 3; c++) {
@@ -116,4 +116,11 @@ function printGrid(grid) {
     res += '\n';
   }
   console.log(res);
+}
+
+export default function test() {
+  console.log('unsolved');
+  printGrid(example_grid);
+  solveSudoku(example_grid, 0, 0);
+  printGrid(example_grid);
 }
