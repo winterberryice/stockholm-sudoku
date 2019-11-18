@@ -6,7 +6,7 @@ import {
   FillCellValuePayload
 } from '../actions/game.action';
 import { BoardCell } from 'src/app/components/board/board.component';
-import { generateBoard } from 'src/app/sudoku';
+import { Sudoku } from 'src/app/sudoku';
 
 const SIZE = 9;
 
@@ -57,7 +57,7 @@ function produceNewBoard(
 function stateFromNewGame(): IGameState {
   const board: BoardCell[][] = [];
 
-  const valueBoard = generateBoard();
+  const valueBoard = new Sudoku().generateBoard();
 
   for (let i = 0; i < SIZE; i++) {
     board[i] = [];
@@ -72,8 +72,8 @@ function stateFromNewGame(): IGameState {
   }
 
   return {
-    board,
     counter: 0,
+    board,
     hasSelectedCell: false
   };
 }

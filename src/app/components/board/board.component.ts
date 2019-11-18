@@ -3,7 +3,6 @@ import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/states/app.state';
 import { NewGame, FillCellValue } from 'src/app/store/actions/game.action';
 import { selectBoard } from 'src/app/store/selectors/game.selector';
-import test from 'src/app/sudoku';
 
 export interface BoardCell {
   row: number;
@@ -46,7 +45,6 @@ export class BoardComponent implements OnInit, OnDestroy {
     _store.subscribe(state => {
       console.log('subscribe: ', state.game);
     });
-    test();
   }
 
   ngOnInit() {

@@ -34,10 +34,84 @@ const _grid = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
-export function generateBoard() {
-  console.warn('generated Board');
+export class Sudoku {
+  private counter = 0;
+  readonly coordsToGenerate = [
+    [0, 0],
+    [0, 2],
+    [0, 4],
+    [0, 6],
+    [0, 7],
+    [0, 8],
+    [3, 3],
+    [3, 5],
+    [6, 6],
+    [6, 8],
+    [7, 0],
+    [7, 2],
+    [1, 6],
+    [1, 8],
+    [4, 0],
+    [2, 5],
+    [2, 2],
+    [5, 3],
+    [5, 7],
+    [8, 5],
+    [8, 8]
+  ];
 
-  function randomFill() {
+  public generateBoard() {
+    console.time('generate');
+
+    let canSolve = false;
+    let randomLevel = this.coordsToGenerate.length;
+    let board = this.randomFill(randomLevel);
+    let counter = 0;
+
+    function lowerRandomLevel() {
+      if (randomLevel > 8) {
+        randomLevel--;
+      }
+    }
+
+    while (!canSolve) {
+      counter++;
+
+      if (counter > 100) {
+        counter = 0;
+        lowerRandomLevel();
+      }
+
+      canSolve = this.noConflictsInGrid(board);
+      if (!canSolve) {
+        lowerRandomLevel();
+        board = this.randomFill(randomLevel);
+      } else {
+        try {
+          canSolve = this.solveSudoku(board, 0, 0);
+        } catch (error) {
+          this.counter = 0;
+          canSolve = false;
+          lowerRandomLevel();
+          board = this.randomFill(randomLevel);
+          console.warn('next try');
+        }
+      }
+    }
+
+    printGrid(board);
+    console.log(
+      counter,
+      this.counter,
+      '___\n',
+      randomLevel,
+      '_________________\n\n\n'
+    );
+    console.timeEnd('generate');
+    return board;
+  }
+
+  private randomFill(level) {
     const coordsToGenerate = [
       [0, 0],
       // [0, 1],
@@ -70,278 +144,180 @@ export function generateBoard() {
       return arr.slice();
     });
 
-    coordsToGenerate.forEach(item => {
+    for (let i = 0; i < level; i++) {
+      const item = this.coordsToGenerate[i];
       _board[item[0]][item[1]] = getRandomInt(1, 9);
-    });
+    }
 
     return _board;
   }
 
-  let canSolve = false;
-  let board = randomFill();
+  private noConflictsInGrid(sudoku_grid: number[][]): boolean {
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 9; col++) {
+        if (sudoku_grid[row][col] !== 0) {
+          if (
+            this.cellHasConflicts(sudoku_grid, row, col)
+            // !noConflicts(
+            //   sudoku_grid,
+            //   row ,
+            //   col ,
+            //   sudoku_grid[row ][col ]
+            // )
+          ) {
+            return false;
+          }
+        }
 
-  while (!canSolve) {
-    canSolve = noConflictsInGrid(board);
-    if (!canSolve) {
-      board = randomFill();
-    } else {
-      canSolve = solveSudoku2(board);
+        // for (let num = 1; num <= 9; num++) {
+        // }
+      }
     }
+    return true;
   }
 
-  printGrid(board);
-  console.log('_________________\n\n\n');
-
-  // const _canSolveSudoku = solveSudoku2(board);
-
-  return board;
-}
-
-function canSolveSudoku(grid: number[][]) {}
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function solveSudoku2(grid: number[][]): boolean {
-  if (noConflictsInGrid(grid)) {
-    return solveSudoku(grid, 0, 0);
-  }
-
-  return false;
-}
-
-function noConflictsInGrid(sudoku_grid: number[][]): boolean {
-  for (let row = 0; row < 9; row++) {
-    for (let col = 0; col < 9; col++) {
-      if (sudoku_grid[row][col] !== 0) {
-        if (
-          cellHasConflicts(sudoku_grid, row, col)
-          // !noConflicts(
-          //   sudoku_grid,
-          //   row ,
-          //   col ,
-          //   sudoku_grid[row ][col ]
-          // )
-        ) {
+  private cellHasConflicts(grid: number[][], row, col): boolean {
+    function _isRowOk() {
+      for (let _col = 0; _col < 9; _col++) {
+        if (grid[row][_col] === grid[row][col] && _col !== col) {
           return false;
         }
       }
-
-      // for (let num = 1; num <= 9; num++) {
-      // }
+      return true;
     }
-  }
-  return true;
-}
-
-function cellHasConflicts(grid: number[][], row, col): boolean {
-  function _isRowOk() {
-    for (let _col = 0; _col < 9; _col++) {
-      if (grid[row][_col] === grid[row][col] && _col !== col) {
-        return false;
-      }
-    }
-    return true;
-  }
-  function _isColOk() {
-    for (let _row = 0; _row < 9; _row++) {
-      if (grid[_row][col] === grid[row][col] && _row !== row) {
-        return false;
-      }
-    }
-    return true;
-  }
-  function _isBoxOk() {
-    const _row = Math.floor(row / 3) * 3;
-    const _col = Math.floor(col / 3) * 3;
-
-    for (let r = 0; r < 3; r++) {
-      for (let c = 0; c < 3; c++) {
-        if (
-          // grid[_row + r][_col + c] !== 0 &&
-          grid[_row + r][_col + c] === grid[row][col] &&
-          _row + r !== row &&
-          _col + c !== col
-        ) {
+    function _isColOk() {
+      for (let _row = 0; _row < 9; _row++) {
+        if (grid[_row][col] === grid[row][col] && _row !== row) {
           return false;
         }
       }
+      return true;
+    }
+    function _isBoxOk() {
+      const _row = Math.floor(row / 3) * 3;
+      const _col = Math.floor(col / 3) * 3;
+
+      for (let r = 0; r < 3; r++) {
+        for (let c = 0; c < 3; c++) {
+          if (
+            // grid[_row + r][_col + c] !== 0 &&
+            grid[_row + r][_col + c] === grid[row][col] &&
+            _row + r !== row &&
+            _col + c !== col
+          ) {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    }
+
+    if (_isRowOk() && _isColOk() && _isBoxOk()) {
+      return false;
     }
 
     return true;
   }
 
-  if (_isRowOk() && _isColOk() && _isBoxOk()) {
+  private solveSudoku(grid, row, col) {
+    this.counter++;
+
+    if (this.counter > 1000) {
+      throw Error('dupa');
+    }
+
+    // console.log('solveSudoku');
+
+    const cell = this.findUnassignedLocation(grid, row, col);
+    row = cell[0];
+    col = cell[1];
+
+    // base case: if no empty cell
+    if (row === -1) {
+      console.log('solved');
+      return true;
+    }
+
+    for (let num = 1; num <= 9; num++) {
+      if (this.noConflicts(grid, row, col, num)) {
+        grid[row][col] = num;
+
+        if (this.solveSudoku(grid, row, col)) {
+          return true;
+        }
+
+        // mark cell as empty (with 0)
+        grid[row][col] = 0;
+      }
+    }
+
+    // trigger back tracking
     return false;
   }
 
-  return true;
-}
+  private findUnassignedLocation(grid, row, col) {
+    let done = false;
+    const res = [-1, -1];
 
-export default function test() {
-  console.warn('test');
-
-  console.time('board generation');
-
-  generateBoard();
-  console.timeEnd('board generation');
-
-  // const _canSolveSudoku = solveSudoku2(empty_grid);
-
-  // console.time('time 1');
-  // console.log('unsolved');
-  // printGrid(example_grid);
-  // solveSudoku(example_grid, 0, 0);
-  // printGrid(example_grid);
-  // console.timeEnd('time 1');
-
-  // console.log('\n\n\n');
-
-  // console.time('time 2');
-  // printGrid(empty_grid);
-  // solveSudoku(empty_grid, 0, 0);
-  // printGrid(empty_grid);
-  // console.timeEnd('time 2');
-}
-
-// recursive algo
-function solveSudoku(grid, row, col) {
-  const cell = findUnassignedLocation(grid, row, col);
-  row = cell[0];
-  col = cell[1];
-
-  // base case: if no empty cell
-  if (row === -1) {
-    console.log('solved');
-    return true;
-  }
-
-  for (let num = 1; num <= 9; num++) {
-    if (noConflicts(grid, row, col, num)) {
-      grid[row][col] = num;
-
-      if (solveSudoku(grid, row, col)) {
-        return true;
-      }
-
-      // mark cell as empty (with 0)
-      grid[row][col] = 0;
-    }
-  }
-
-  // trigger back tracking
-  return false;
-}
-
-function findUnassignedLocation(grid, row, col) {
-  let done = false;
-  const res = [-1, -1];
-
-  while (!done) {
-    if (row === 9) {
-      done = true;
-    } else {
-      if (grid[row][col] === 0) {
-        res[0] = row;
-        res[1] = col;
+    while (!done) {
+      if (row === 9) {
         done = true;
       } else {
-        if (col < 8) {
-          col++;
+        if (grid[row][col] === 0) {
+          res[0] = row;
+          res[1] = col;
+          done = true;
         } else {
-          row++;
-          col = 0;
+          if (col < 8) {
+            col++;
+          } else {
+            row++;
+            col = 0;
+          }
         }
       }
     }
+
+    return res;
   }
 
-  return res;
-}
-
-function noConflicts2(grid, row, col, num) {
-  return (
-    isRowOk2(grid, row, num) &&
-    isColOk2(grid, col, num) &&
-    isBoxOk2(grid, row, col, num)
-  );
-}
-
-function isRowOk2(grid, row, num) {
-  for (let col = 0; col < 9; col++) {
-    if (grid[row][col] === num) {
-      return false;
-    }
-  }
-
-  return true;
-}
-function isColOk2(grid, col, num) {
-  for (let row = 0; row < 9; row++) {
-    if (grid[row][col] === num) {
-      return false;
-    }
-  }
-
-  return true;
-}
-function isBoxOk2(grid, row, col, num) {
-  row = Math.floor(row / 3) * 3;
-  col = Math.floor(col / 3) * 3;
-
-  for (let r = 0; r < 3; r++) {
-    for (let c = 0; c < 3; c++) {
-      if (grid[row + r][col + c] === num) {
-        return false;
+  private noConflicts(grid, row, col, num) {
+    function isRowOk() {
+      for (let _col = 0; _col < 9; _col++) {
+        if (grid[row][_col] === num) {
+          return false;
+        }
       }
+
+      return true;
     }
-  }
-
-  return true;
-}
-
-function noConflicts(grid, row, col, num) {
-  return (
-    isRowOk(grid, row, num) &&
-    isColOk(grid, col, num) &&
-    isBoxOk(grid, row, col, num)
-  );
-}
-
-function isRowOk(grid, row, num) {
-  for (let col = 0; col < 9; col++) {
-    if (grid[row][col] === num) {
-      return false;
-    }
-  }
-
-  return true;
-}
-function isColOk(grid, col, num) {
-  for (let row = 0; row < 9; row++) {
-    if (grid[row][col] === num) {
-      return false;
-    }
-  }
-
-  return true;
-}
-function isBoxOk(grid, row, col, num) {
-  row = Math.floor(row / 3) * 3;
-  col = Math.floor(col / 3) * 3;
-
-  for (let r = 0; r < 3; r++) {
-    for (let c = 0; c < 3; c++) {
-      if (grid[row + r][col + c] === num) {
-        return false;
+    function isColOk() {
+      for (let _row = 0; _row < 9; _row++) {
+        if (grid[_row][col] === num) {
+          return false;
+        }
       }
-    }
-  }
 
-  return true;
+      return true;
+    }
+    function isBoxOk() {
+      const _row = Math.floor(row / 3) * 3;
+      const _col = Math.floor(col / 3) * 3;
+
+      for (let r = 0; r < 3; r++) {
+        for (let c = 0; c < 3; c++) {
+          if (grid[_row + r][_col + c] === num) {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    }
+
+    return isRowOk() && isColOk() && isBoxOk();
+  }
 }
 
 function printGrid(grid) {
@@ -354,4 +330,10 @@ function printGrid(grid) {
     res += '\n';
   }
   console.log(res);
+}
+
+function getRandomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
