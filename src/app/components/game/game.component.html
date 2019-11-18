@@ -1,18 +1,22 @@
-<p>
-  game works!
-</p>
-<div>{{ counter$ | async }}</div>
-<button (click)="onClick(-1)">-1</button>
-<button (click)="onClick(1)">+1</button>
+<div class="p-2">
+  <p>
+    game works!
+  </p>
+  <div>{{ counter$ | async }}</div>
+  <button (click)="onClick(-1)">-1</button>
+  <button (click)="onClick(1)">+1</button>
+</div>
 
 <hr />
 
-<button
-  class="py-1 px-2 rounded bg-green-400 hover:bg-green-500"
-  (click)="onNewGameClick()"
->
-  new game
-</button>
+<div class="flex justify-center p-2">
+  <button
+    class="py-1 px-2 rounded bg-green-400 hover:bg-green-500"
+    (click)="onNewGameClick()"
+  >
+    new game
+  </button>
+</div>
 
 <hr />
 <app-board></app-board>
