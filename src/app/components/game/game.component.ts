@@ -4,7 +4,8 @@ import { IAppState } from 'src/app/store/states/app.state';
 import { selectCounter } from '../../store/selectors/game.selector';
 import {
   IncrementCounter,
-  DecrementCounter
+  DecrementCounter,
+  NewGame
 } from 'src/app/store/actions/game.action';
 
 @Component({
@@ -25,5 +26,9 @@ export class GameComponent implements OnInit {
     } else {
       this._store.dispatch(new IncrementCounter());
     }
+  }
+
+  onNewGameClick() {
+    this._store.dispatch(new NewGame());
   }
 }
