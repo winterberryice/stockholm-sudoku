@@ -43,17 +43,18 @@ export class Sudoku {
     [0, 6],
     [0, 7],
     [0, 8],
-    [3, 3],
+    [2, 7],
+    [1, 6],
+    [1, 2],
     [4, 4],
+    [3, 3],
     [3, 5],
     [6, 6],
     [6, 8],
     [7, 0],
     [7, 2],
-    [1, 6],
     [1, 8],
     [4, 0],
-    [2, 5],
     [2, 2],
     [5, 3],
     [5, 7],
@@ -67,31 +68,21 @@ export class Sudoku {
     let canSolve = false;
     let randomLevel = this.coordsToGenerate.length;
     let board = this.randomFill(randomLevel);
-    let counter = 0;
 
     function lowerRandomLevel() {
-      if (randomLevel > 8) {
+      if (randomLevel > 10) {
         randomLevel--;
       }
     }
 
     while (!canSolve) {
-      counter++;
-
-      if (counter > 100) {
-        counter = 0;
-        lowerRandomLevel();
-      }
-
       canSolve = this.noConflictsInGrid(board);
       if (!canSolve) {
-        lowerRandomLevel();
         board = this.randomFill(randomLevel);
       } else {
         try {
           canSolve = this.solveSudoku(board, 0, 0);
         } catch (error) {
-          this.counter = 0;
           canSolve = false;
           lowerRandomLevel();
           board = this.randomFill(randomLevel);
@@ -101,46 +92,12 @@ export class Sudoku {
     }
 
     printGrid(board);
-    console.log(
-      counter,
-      this.counter,
-      '___\n',
-      randomLevel,
-      '_________________\n\n\n'
-    );
+    console.log(this.counter, '___\n', randomLevel, '_________________\n\n\n');
     console.timeEnd('generate');
     return board;
   }
 
-  private randomFill(level) {
-    const coordsToGenerate = [
-      [0, 0],
-      // [0, 1],
-      [0, 2],
-      [3, 3],
-      //  [3, 4],
-      [3, 5],
-      [6, 6],
-      //  [6, 7],
-      [6, 8],
-      [7, 0],
-      //  [7, 1],
-      [7, 2],
-      [1, 6],
-      //  [1, 7],
-      [1, 8],
-      [4, 0],
-      //   [0, 4],
-      [2, 5],
-      [2, 2],
-      //   [4, 6],
-      [5, 3],
-      [5, 7],
-      //   [8, 2],
-      [8, 5],
-      [8, 8]
-    ];
-
+  private randomFill(level: number) {
     const _board = empty_grid.map(function(arr) {
       return arr.slice();
     });
@@ -157,27 +114,20 @@ export class Sudoku {
     for (let row = 0; row < 9; row++) {
       for (let col = 0; col < 9; col++) {
         if (sudoku_grid[row][col] !== 0) {
-          if (
-            this.cellHasConflicts(sudoku_grid, row, col)
-            // !noConflicts(
-            //   sudoku_grid,
-            //   row ,
-            //   col ,
-            //   sudoku_grid[row ][col ]
-            // )
-          ) {
+          if (this.cellHasConflicts(sudoku_grid, row, col)) {
             return false;
           }
         }
-
-        // for (let num = 1; num <= 9; num++) {
-        // }
       }
     }
     return true;
   }
 
-  private cellHasConflicts(grid: number[][], row, col): boolean {
+  private cellHasConflicts(
+    grid: number[][],
+    row: number,
+    col: number
+  ): boolean {
     function _isRowOk() {
       for (let _col = 0; _col < 9; _col++) {
         if (grid[row][_col] === grid[row][col] && _col !== col) {
@@ -201,7 +151,6 @@ export class Sudoku {
       for (let r = 0; r < 3; r++) {
         for (let c = 0; c < 3; c++) {
           if (
-            // grid[_row + r][_col + c] !== 0 &&
             grid[_row + r][_col + c] === grid[row][col] &&
             _row + r !== row &&
             _col + c !== col
@@ -221,14 +170,13 @@ export class Sudoku {
     return true;
   }
 
-  private solveSudoku(grid, row, col) {
+  private solveSudoku(grid: number[][], row: number, col: number) {
     this.counter++;
 
-    if (this.counter > 1000) {
-      throw Error('dupa');
+    if (this.counter > 2000) {
+      this.counter = 0;
+      throw Error('try another board');
     }
-
-    // console.log('solveSudoku');
 
     const cell = this.findUnassignedLocation(grid, row, col);
     row = cell[0];
@@ -257,7 +205,7 @@ export class Sudoku {
     return false;
   }
 
-  private findUnassignedLocation(grid, row, col) {
+  private findUnassignedLocation(grid: number[][], row: number, col: number) {
     let done = false;
     const res = [-1, -1];
 
@@ -283,7 +231,7 @@ export class Sudoku {
     return res;
   }
 
-  private noConflicts(grid, row, col, num) {
+  private noConflicts(grid: number[][], row: number, col: number, num: number) {
     function isRowOk() {
       for (let _col = 0; _col < 9; _col++) {
         if (grid[row][_col] === num) {
@@ -321,7 +269,7 @@ export class Sudoku {
   }
 }
 
-function printGrid(grid) {
+function printGrid(grid: number[][]) {
   let res = '';
 
   for (let i = 0; i < 9; i++) {
