@@ -16,5 +16,8 @@
     <span *ngIf="(boardCell$ | async)?.readonly">
       {{ (boardCell$ | async)?.solveValue }}
     </span>
+    <span *ngIf="!(boardCell$ | async)?.readonly" class="text-blue-600">
+      {{ (boardCell$ | async)?.userValue }}
+    </span>
   </button>
 </div>
