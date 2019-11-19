@@ -17,6 +17,8 @@ export class CellComponent implements OnInit {
 
   boardCell$: Observable<BoardCell>;
 
+  readonly DEBUG = false;
+
   constructor(private _store: Store<IAppState>) {}
 
   ngOnInit() {

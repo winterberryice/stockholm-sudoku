@@ -13,5 +13,7 @@ export interface BoardCell {
   row: number;
   column: number;
   selected: boolean;
-  cellValue: number;
+  solveValue: number;
+  userValue: number;
+  readonly: boolean;
 }

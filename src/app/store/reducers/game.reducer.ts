@@ -5,7 +5,7 @@ import {
   SelectCellActionPayload,
   FillCellValuePayload
 } from '../actions/game.action';
-import { Sudoku } from 'src/app/sudoku';
+import { Sudoku, getRandomInt } from 'src/app/sudoku';
 import { DifficultyLevel, IGameState, BoardCell } from 'src/app/types';
 
 const SIZE = 9;
@@ -26,7 +26,7 @@ export const gameReducer = (
         counter: state.counter - 1
       };
     case EGameActions.NewGame:
-      return stateFromNewGame();
+      return stateFromNewGame(state);
     case EGameActions.SelectCell:
       return stateFromSelectCell(state, action.payload);
     case EGameActions.FillCellValue:
@@ -54,9 +54,9 @@ function produceNewBoard(
   return newBoard;
 }
 
-function stateFromNewGame(): IGameState {
+function stateFromNewGame(state: IGameState): IGameState {
   const board: BoardCell[][] = [];
-
+  const { difficultyLevel } = state;
   const valueBoard = new Sudoku().generateBoard();
 
   for (let i = 0; i < SIZE; i++) {
@@ -66,13 +66,39 @@ function stateFromNewGame(): IGameState {
         row: i,
         column: j,
         selected: false,
-        cellValue: valueBoard[i][j]
+        solveValue: valueBoard[i][j],
+        userValue: null,
+        readonly: false
       };
     }
   }
 
+  function setReadonlyCells() {
+    const result: {
+      [key: string]: boolean;
+    } = {};
+
+    while (Object.keys(result).length < difficultyLevel) {
+      const rowIndex = getRandomInt(0, 8);
+      const colIndex = getRandomInt(0, 8);
+
+      const key = `row ${rowIndex}, col ${colIndex}`;
+
+      if (!result[key]) {
+        result[key] = true;
+        const cell = board[rowIndex][colIndex];
+        cell.userValue = cell.solveValue;
+        cell.readonly = true;
+      }
+    }
+
+    console.log('result keys count: ', Object.keys(result).length, result);
+  }
+
+  setReadonlyCells();
+
   return {
-    difficultyLevel: DifficultyLevel.easy,
+    ...state,
     counter: 0,
     board,
     hasSelectedCell: false
@@ -110,11 +136,11 @@ function stateFromFillCellValue(
 
   if (state.hasSelectedCell) {
     newBoard = produceNewBoard(state.board, cell => {
-      let cellValue: number = cell.cellValue;
+      let cellValue: number = cell.solveValue;
       if (cell.selected) {
         cellValue = value;
       }
-      return { ...cell, cellValue };
+      return { ...cell, solveValue: cellValue };
     });
   }
 
