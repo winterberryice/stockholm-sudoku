@@ -3,13 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/states/app.state';
 import { NewGame, FillCellValue } from 'src/app/store/actions/game.action';
 import { selectBoard } from 'src/app/store/selectors/game.selector';
-
-export interface BoardCell {
-  row: number;
-  column: number;
-  selected: boolean;
-  cellValue: number;
-}
+import { BoardCell } from 'src/app/types';
 
 class KeyboardManager {
   constructor(private _store: Store<IAppState>) {

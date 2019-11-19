@@ -1,4 +1,5 @@
-import { IGameState, initialGameState } from './game.state';
+import { initialGameState } from './game.state';
+import { IGameState } from 'src/app/types';
 
 export interface IAppState {
   game: IGameState;

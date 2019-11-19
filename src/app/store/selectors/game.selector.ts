@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { IAppState } from '../states/app.state';
-import { IGameState } from '../states/game.state';
 import { SelectCellActionPayload } from '../actions/game.action';
+import { IGameState } from 'src/app/types';
 
 const selectGame = (state: IAppState) => state.game;
 

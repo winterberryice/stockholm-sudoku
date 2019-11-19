@@ -1,12 +1,12 @@
-import { initialGameState, IGameState } from '../states/game.state';
+import { initialGameState } from '../states/game.state';
 import {
   EGameActions,
   GameActions,
   SelectCellActionPayload,
   FillCellValuePayload
 } from '../actions/game.action';
-import { BoardCell } from 'src/app/components/board/board.component';
 import { Sudoku } from 'src/app/sudoku';
+import { DifficultyLevel, IGameState, BoardCell } from 'src/app/types';
 
 const SIZE = 9;
 
@@ -72,6 +72,7 @@ function stateFromNewGame(): IGameState {
   }
 
   return {
+    difficultyLevel: DifficultyLevel.easy,
     counter: 0,
     board,
     hasSelectedCell: false

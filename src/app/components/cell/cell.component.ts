@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/states/app.state';
-import { BoardCell } from '../board/board.component';
 import { getCell } from 'src/app/store/selectors/game.selector';
 import { Observable } from 'rxjs';
 import { SelectCell } from 'src/app/store/actions/game.action';
+import { BoardCell } from 'src/app/types';
 
 @Component({
   selector: 'app-cell',
