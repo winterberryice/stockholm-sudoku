@@ -73,7 +73,8 @@ function stateFromNewGame(state: IGameState): IGameState {
         selected: false,
         solveValue: valueBoard[i][j],
         userValue: null,
-        readonly: false
+        readonly: false,
+        highlightBackground: false
       };
     }
   }
@@ -119,6 +120,22 @@ function stateFromSelectCell(
     col: payload.column,
     row: payload.row
   };
+  const rowBoxIndex = Math.floor(selectedPosition.row / 3) * 3;
+  const colBoxIndex = Math.floor(selectedPosition.col / 3) * 3;
+
+  function getHighlightBackground(cell: BoardCell): boolean {
+    if (
+      cell.column === selectedPosition.col ||
+      cell.row === selectedPosition.row ||
+      (cell.row >= rowBoxIndex &&
+        cell.row < rowBoxIndex + 3 &&
+        cell.column >= colBoxIndex &&
+        cell.column < colBoxIndex + 3)
+    ) {
+      return true;
+    }
+    return false;
+  }
 
   const newBoard: BoardCell[][] = produceNewBoard(state.board, cell => {
     let isSelected = false;
@@ -126,10 +143,11 @@ function stateFromSelectCell(
       isSelected = true;
       hasSelectedCell = true;
     }
-
-    // if(cell.column==)
-
-    return { ...cell, selected: isSelected };
+    return {
+      ...cell,
+      selected: isSelected,
+      highlightBackground: getHighlightBackground(cell)
+    };
   });
 
   return {

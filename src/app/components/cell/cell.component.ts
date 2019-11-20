@@ -14,19 +14,16 @@ import { BoardCell } from 'src/app/types';
 export class CellComponent implements OnInit {
   @Input() row: number;
   @Input() column: number;
-
-  boardCell$: Observable<BoardCell>;
   boardCell: BoardCell;
-
   readonly DEBUG = false;
 
   constructor(private _store: Store<IAppState>) {}
 
   ngOnInit() {
-    this.boardCell$ = this._store.pipe(
+    const boardCell$ = this._store.pipe(
       select(getCell, { row: this.row, column: this.column })
     );
-    this.boardCell$.subscribe(boardCell => {
+    boardCell$.subscribe(boardCell => {
       this.boardCell = boardCell;
     });
   }
@@ -38,5 +35,16 @@ export class CellComponent implements OnInit {
         column: this.column
       })
     );
+  }
+
+  getCellBackgroundClass() {
+    if (this.boardCell) {
+      if (this.boardCell.selected) {
+        return 'bg-blue-200';
+      } else if (this.boardCell.highlightBackground) {
+        return 'bg-gray-200';
+      }
+    }
+    return '';
   }
 }

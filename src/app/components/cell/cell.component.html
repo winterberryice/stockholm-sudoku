@@ -1,7 +1,4 @@
-<div
-  class="h-full relative w-full"
-  [ngClass]="boardCell?.selected == true ? 'bg-blue-200' : ''"
->
+<div class="h-full relative w-full" [ngClass]="getCellBackgroundClass()">
   <div
     *ngIf="DEBUG"
     class="debug-info pl-1 text-xs select-none"
