@@ -15,10 +15,10 @@ import {
 
 const SIZE = 9;
 
-export const gameReducer = (
+export function gameReducer(
   state = initialGameState,
   action: GameActions
-): IGameState => {
+): IGameState {
   switch (action.type) {
     case EGameActions.Increment:
       return {
@@ -39,7 +39,7 @@ export const gameReducer = (
     default:
       return state;
   }
-};
+}
 
 function produceNewBoard(
   board: BoardCell[][],
