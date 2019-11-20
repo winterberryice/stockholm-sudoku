@@ -5,7 +5,7 @@
     "prestart": "ngtw build",
     "ng": "ng",
     "start": "ng serve & ngtw watch",
-    "build": "ngtw build && ng build --prod",
+    "build": "ngtw build && ng build --prod --base-href ./",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
