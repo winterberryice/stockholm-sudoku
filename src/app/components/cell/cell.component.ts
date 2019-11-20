@@ -16,6 +16,7 @@ export class CellComponent implements OnInit {
   @Input() column: number;
 
   boardCell$: Observable<BoardCell>;
+  boardCell: BoardCell;
 
   readonly DEBUG = false;
 
@@ -25,6 +26,9 @@ export class CellComponent implements OnInit {
     this.boardCell$ = this._store.pipe(
       select(getCell, { row: this.row, column: this.column })
     );
+    this.boardCell$.subscribe(boardCell => {
+      this.boardCell = boardCell;
+    });
   }
 
   selectCell() {

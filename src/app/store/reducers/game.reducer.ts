@@ -6,7 +6,12 @@ import {
   FillCellValuePayload
 } from '../actions/game.action';
 import { Sudoku, getRandomInt } from 'src/app/sudoku';
-import { DifficultyLevel, IGameState, BoardCell } from 'src/app/types';
+import {
+  DifficultyLevel,
+  IGameState,
+  BoardCell,
+  SelectedPosition
+} from 'src/app/types';
 
 const SIZE = 9;
 
@@ -110,6 +115,10 @@ function stateFromSelectCell(
   payload: SelectCellActionPayload
 ): IGameState {
   let hasSelectedCell = false;
+  const selectedPosition: SelectedPosition = {
+    col: payload.column,
+    row: payload.row
+  };
 
   const newBoard: BoardCell[][] = produceNewBoard(state.board, cell => {
     let isSelected = false;
@@ -117,13 +126,17 @@ function stateFromSelectCell(
       isSelected = true;
       hasSelectedCell = true;
     }
+
+    // if(cell.column==)
+
     return { ...cell, selected: isSelected };
   });
 
   return {
     ...state,
     board: newBoard,
-    hasSelectedCell
+    hasSelectedCell,
+    selectedPosition
   };
 }
 
