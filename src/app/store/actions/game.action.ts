@@ -5,7 +5,7 @@ export enum EGameActions {
   Decrement = 'DECREMENT',
   NewGame = 'New game',
   SelectCell = 'Select cell',
-  FillCellValue = ' Fill cell value'
+  FillCellValue = 'Fill cell value'
 }
 
 export class IncrementCounter implements Action {

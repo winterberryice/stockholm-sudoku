@@ -32,3 +32,8 @@ export const getCell = createSelector(
     return null;
   }
 );
+
+export const getSelectedPosition = createSelector(
+  (state: IAppState) => state.game,
+  (state: IGameState) => state.selectedPosition
+);

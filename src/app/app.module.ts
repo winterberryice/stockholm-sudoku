@@ -10,12 +10,15 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { GameComponent } from './components/game/game.component';
 import { BoardComponent } from './components/board/board.component';
 import { CellComponent } from './components/cell/cell.component';
+import { EffectsModule } from '@ngrx/effects';
+import { GameEffects } from './store/effects/game.effect';
 
 @NgModule({
   declarations: [AppComponent, GameComponent, BoardComponent, CellComponent],
   imports: [
     BrowserModule,
     StoreModule.forRoot(appReducer),
+    EffectsModule.forRoot([GameEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [],
