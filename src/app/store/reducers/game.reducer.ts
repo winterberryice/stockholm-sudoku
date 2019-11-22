@@ -74,7 +74,8 @@ function stateFromNewGame(state: IGameState): IGameState {
         solveValue: valueBoard[i][j],
         userValue: null,
         readonly: false,
-        highlightBackground: false
+        highlightRowColumnBox: false,
+        highlightNumber: false
       };
     }
   }
@@ -122,8 +123,18 @@ function stateFromSelectCell(
   };
   const rowBoxIndex = Math.floor(selectedPosition.row / 3) * 3;
   const colBoxIndex = Math.floor(selectedPosition.col / 3) * 3;
+  function getSelectedCellValue() {
+    const selectedBoardCell =
+      state.board[selectedPosition.row][selectedPosition.col];
+    if (selectedBoardCell.readonly) {
+      return selectedBoardCell.solveValue;
+    } else {
+      return selectedBoardCell.userValue;
+    }
+  }
+  const selectedCellValue = getSelectedCellValue();
 
-  function getHighlightBackground(cell: BoardCell): boolean {
+  function isSameRowColumnBox(cell: BoardCell): boolean {
     if (
       cell.column === selectedPosition.col ||
       cell.row === selectedPosition.row ||
@@ -131,6 +142,16 @@ function stateFromSelectCell(
         cell.row < rowBoxIndex + 3 &&
         cell.column >= colBoxIndex &&
         cell.column < colBoxIndex + 3)
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  function isNumberHighlighted(cell: BoardCell): boolean {
+    if (
+      (cell.readonly && cell.solveValue === selectedCellValue) ||
+      (cell.userValue != null && cell.userValue === selectedCellValue)
     ) {
       return true;
     }
@@ -146,7 +167,8 @@ function stateFromSelectCell(
     return {
       ...cell,
       selected: isSelected,
-      highlightBackground: getHighlightBackground(cell)
+      highlightRowColumnBox: isSameRowColumnBox(cell),
+      highlightNumber: isNumberHighlighted(cell)
     };
   });
 

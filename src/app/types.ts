@@ -22,5 +22,6 @@ export interface BoardCell {
   solveValue: number;
   userValue: number;
   readonly: boolean;
-  highlightBackground: boolean;
+  highlightRowColumnBox: boolean;
+  highlightNumber: boolean;
 }

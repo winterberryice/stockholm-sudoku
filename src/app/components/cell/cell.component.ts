@@ -41,7 +41,9 @@ export class CellComponent implements OnInit {
     if (this.boardCell) {
       if (this.boardCell.selected) {
         return 'bg-blue-200';
-      } else if (this.boardCell.highlightBackground) {
+      } else if (this.boardCell.highlightNumber) {
+        return 'bg-gray-400';
+      } else if (this.boardCell.highlightRowColumnBox) {
         return 'bg-gray-200';
       }
     }
