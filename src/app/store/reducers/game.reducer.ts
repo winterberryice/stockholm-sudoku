@@ -36,6 +36,8 @@ export function gameReducer(
       return stateFromSelectCell(state, action.payload);
     case EGameActions.FillCellValue:
       return stateFromFillCellValue(state, action.payload);
+    case EGameActions.ClearUserCellValue:
+      return stateFromClearUserCellValue(state);
     default:
       return state;
   }
@@ -195,6 +197,31 @@ function stateFromFillCellValue(
       }
       return { ...cell, userValue: cellValue };
     });
+  }
+
+  return { ...state, board: newBoard };
+}
+
+function stateFromClearUserCellValue(state: IGameState): IGameState {
+  let newBoard: BoardCell[][] = state.board;
+
+  if (state.selectedPosition) {
+    const selectedCell =
+      state.board[state.selectedPosition.row][state.selectedPosition.col];
+
+    if (!selectedCell.readonly) {
+      newBoard = produceNewBoard(state.board, cell => {
+        let userValue = cell.userValue;
+        if (
+          cell.row === state.selectedPosition.row &&
+          cell.column === state.selectedPosition.col
+        ) {
+          userValue = null;
+        }
+
+        return { ...cell, userValue };
+      });
+    }
   }
 
   return { ...state, board: newBoard };
