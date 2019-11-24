@@ -1,1 +1,13 @@
-<div class="border">controls</div>
+<div>
+  <div
+    class="inline-block"
+    *ngFor="let model of controlsModel; trackBy: trackByFn"
+  >
+    <button
+      class="p-2 py-1 text-3xl text-blue-600"
+      (click)="onClick(model.value)"
+    >
+      {{ model.value }}
+    </button>
+  </div>
+</div>
