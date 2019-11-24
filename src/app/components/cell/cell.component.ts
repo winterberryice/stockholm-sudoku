@@ -2,9 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/states/app.state';
 import { getCell } from 'src/app/store/selectors/game.selector';
-import { Observable } from 'rxjs';
 import { SelectCell } from 'src/app/store/actions/game.action';
-import { BoardCell } from 'src/app/types';
+import { BoardCell, DEBUG } from 'src/app/types';
 
 @Component({
   selector: 'app-cell',
@@ -15,9 +14,11 @@ export class CellComponent implements OnInit {
   @Input() row: number;
   @Input() column: number;
   boardCell: BoardCell;
-  readonly DEBUG = false;
+  DEBUG: boolean;
 
-  constructor(private _store: Store<IAppState>) {}
+  constructor(private _store: Store<IAppState>) {
+    this.DEBUG = DEBUG;
+  }
 
   ngOnInit() {
     const boardCell$ = this._store.pipe(

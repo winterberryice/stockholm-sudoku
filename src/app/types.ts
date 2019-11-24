@@ -1,4 +1,5 @@
 export const SIZE = 9;
+export const DEBUG = false;
 
 export enum DifficultyLevel {
   easy = 38

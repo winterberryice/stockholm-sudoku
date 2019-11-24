@@ -7,7 +7,7 @@ import {
   ClearUserCellValue
 } from 'src/app/store/actions/game.action';
 import { selectBoard } from 'src/app/store/selectors/game.selector';
-import { BoardCell } from 'src/app/types';
+import { BoardCell, DEBUG } from 'src/app/types';
 
 class KeyboardManager {
   constructor(private _store: Store<IAppState>) {
@@ -45,7 +45,9 @@ export class BoardComponent implements OnInit, OnDestroy {
   constructor(private _store: Store<IAppState>) {
     this._keyboardManager = new KeyboardManager(_store);
     _store.subscribe(state => {
-      console.log('subscribe: ', state.game);
+      if (DEBUG) {
+        console.log('subscribe: ', state.game);
+      }
     });
   }
 
