@@ -37,3 +37,8 @@ export const getSelectedPosition = createSelector(
   (state: IAppState) => state.game,
   (state: IGameState) => state.selectedPosition
 );
+
+export const getNumberUsageInfo = createSelector(
+  (state: IAppState) => state.game,
+  (state: IGameState) => state.numberUsageInfo
+);
