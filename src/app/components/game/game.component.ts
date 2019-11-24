@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/states/app.state';
 import { selectCounter } from '../../store/selectors/game.selector';
-import {
-  IncrementCounter,
-  DecrementCounter,
-  NewGame
-} from 'src/app/store/actions/game.action';
+import { NewGame } from 'src/app/store/actions/game.action';
 
 @Component({
   selector: 'app-game',
@@ -19,14 +15,6 @@ export class GameComponent implements OnInit {
   constructor(private _store: Store<IAppState>) {}
 
   ngOnInit() {}
-
-  onClick(value: number) {
-    if (value < 0) {
-      this._store.dispatch(new DecrementCounter());
-    } else {
-      this._store.dispatch(new IncrementCounter());
-    }
-  }
 
   onNewGameClick() {
     this._store.dispatch(new NewGame());

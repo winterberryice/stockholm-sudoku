@@ -6,12 +6,7 @@ import {
   FillCellValuePayload
 } from '../actions/game.action';
 import { Sudoku, getRandomInt } from 'src/app/sudoku';
-import {
-  DifficultyLevel,
-  IGameState,
-  BoardCell,
-  SelectedPosition
-} from 'src/app/types';
+import { IGameState, BoardCell, SelectedPosition } from 'src/app/types';
 
 const SIZE = 9;
 
@@ -20,16 +15,6 @@ export function gameReducer(
   action: GameActions
 ): IGameState {
   switch (action.type) {
-    case EGameActions.Increment:
-      return {
-        ...state,
-        counter: state.counter + 1
-      };
-    case EGameActions.Decrement:
-      return {
-        ...state,
-        counter: state.counter - 1
-      };
     case EGameActions.NewGame:
       return stateFromNewGame(state);
     case EGameActions.SelectCell:
