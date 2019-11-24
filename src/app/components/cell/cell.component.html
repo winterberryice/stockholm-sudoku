@@ -5,6 +5,7 @@
     style="font-size: 0.6rem;"
   >
     r:{{ row }}:c{{ column }}, {{ boardCell?.selected }}
+    {{ boardCell?.solveValue }}
   </div>
   <button
     (click)="selectCell()"
