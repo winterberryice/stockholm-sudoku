@@ -6,7 +6,12 @@ import {
   FillCellValuePayload
 } from '../actions/game.action';
 import { Sudoku, getRandomInt } from 'src/app/sudoku';
-import { IGameState, BoardCell, SelectedPosition } from 'src/app/types';
+import {
+  IGameState,
+  BoardCell,
+  SelectedPosition,
+  NumberUsageInfo
+} from 'src/app/types';
 
 const SIZE = 9;
 
@@ -67,6 +72,8 @@ function stateFromNewGame(state: IGameState): IGameState {
     }
   }
 
+  const { numberUsageInfo, countCell } = numberUsageInfoHandler();
+
   function setReadonlyCells() {
     const result: {
       [key: string]: boolean;
@@ -83,6 +90,7 @@ function stateFromNewGame(state: IGameState): IGameState {
         const cell = board[rowIndex][colIndex];
         cell.userValue = cell.solveValue;
         cell.readonly = true;
+        countCell(cell);
       }
     }
   }
@@ -93,7 +101,8 @@ function stateFromNewGame(state: IGameState): IGameState {
     ...state,
     counter: 0,
     board,
-    hasSelectedCell: false
+    hasSelectedCell: false,
+    numberUsageInfo
   };
 }
 
@@ -171,6 +180,7 @@ function stateFromFillCellValue(
 ): IGameState {
   const { value } = payload;
   let newBoard: BoardCell[][] = state.board;
+  const { numberUsageInfo, countCell } = numberUsageInfoHandler();
 
   if (state.hasSelectedCell) {
     newBoard = produceNewBoard(state.board, cell => {
@@ -178,15 +188,19 @@ function stateFromFillCellValue(
       if (cell.selected) {
         cellValue = value;
       }
-      return { ...cell, userValue: cellValue };
+      const newCell = { ...cell, userValue: cellValue };
+      countCell(newCell);
+      return { ...newCell };
     });
   }
 
-  return { ...state, board: newBoard };
+  return { ...state, board: newBoard, numberUsageInfo };
 }
 
 function stateFromClearUserCellValue(state: IGameState): IGameState {
   let newBoard: BoardCell[][] = state.board;
+
+  const { numberUsageInfo, countCell } = numberUsageInfoHandler();
 
   if (state.selectedPosition) {
     const selectedCell =
@@ -201,11 +215,34 @@ function stateFromClearUserCellValue(state: IGameState): IGameState {
         ) {
           userValue = null;
         }
-
-        return { ...cell, userValue };
+        const newCell = { ...cell, userValue };
+        countCell(newCell);
+        return { ...newCell };
       });
     }
   }
 
-  return { ...state, board: newBoard };
+  return { ...state, board: newBoard, numberUsageInfo };
+}
+
+function numberUsageInfoHandler() {
+  function initNumberUsageInfo() {
+    const _numberUsageInfo = {};
+    for (let i = 1; i <= 9; i++) {
+      _numberUsageInfo[i] = 0;
+    }
+    return _numberUsageInfo;
+  }
+  const numberUsageInfo: NumberUsageInfo = initNumberUsageInfo();
+
+  function countCell(cell: BoardCell) {
+    if (cell.userValue != null) {
+      numberUsageInfo[cell.userValue] = numberUsageInfo[cell.userValue] + 1;
+    }
+  }
+
+  return {
+    numberUsageInfo,
+    countCell
+  };
 }

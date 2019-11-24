@@ -5,5 +5,6 @@ export const initialGameState: IGameState = {
   board: [],
   hasSelectedCell: false,
   difficultyLevel: DifficultyLevel.easy,
-  selectedPosition: null
+  selectedPosition: null,
+  numberUsageInfo: {}
 };

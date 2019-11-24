@@ -7,12 +7,17 @@ export interface SelectedPosition {
   col: number;
 }
 
+export interface NumberUsageInfo {
+  [number: string]: number;
+}
+
 export interface IGameState {
   counter: number;
   board: BoardCell[][];
   hasSelectedCell: boolean;
   difficultyLevel: DifficultyLevel;
   selectedPosition: SelectedPosition;
+  numberUsageInfo: NumberUsageInfo;
 }
 
 export interface BoardCell {
