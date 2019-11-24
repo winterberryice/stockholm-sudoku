@@ -41,4 +41,11 @@ export class BoardControlsComponent implements OnInit {
       this._store.dispatch(new ClearUserCellValue());
     }
   }
+
+  getDisabled(value: number) {
+    if (this.numberUsageInfo[value] >= 9) {
+      return true;
+    }
+    return false;
+  }
 }
