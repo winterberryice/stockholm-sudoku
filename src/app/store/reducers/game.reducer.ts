@@ -85,8 +85,6 @@ function stateFromNewGame(state: IGameState): IGameState {
         cell.readonly = true;
       }
     }
-
-    console.log('result keys count: ', Object.keys(result).length, result);
   }
 
   setReadonlyCells();

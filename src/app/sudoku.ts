@@ -63,7 +63,7 @@ export class Sudoku {
   ];
 
   public generateBoard() {
-    console.time('generate');
+    // console.time('generate');
 
     let canSolve = false;
     let randomLevel = this.coordsToGenerate.length;
@@ -86,14 +86,14 @@ export class Sudoku {
           canSolve = false;
           lowerRandomLevel();
           board = this.randomFill(randomLevel);
-          console.warn('next try');
+          // console.warn('next try');
         }
       }
     }
 
     printGrid(board);
-    console.log(this.counter, '___\n', randomLevel, '_________________\n\n\n');
-    console.timeEnd('generate');
+    // console.log(this.counter, '___\n', randomLevel, '_________________\n\n\n');
+    // console.timeEnd('generate');
     return board;
   }
 
@@ -184,7 +184,7 @@ export class Sudoku {
 
     // base case: if no empty cell
     if (row === -1) {
-      console.log('solved');
+      //  console.log('solved');
       return true;
     }
 
@@ -278,7 +278,7 @@ function printGrid(grid: number[][]) {
     }
     res += '\n';
   }
-  console.log(res);
+  // console.log(res);
 }
 
 export function getRandomInt(min: number, max: number) {
