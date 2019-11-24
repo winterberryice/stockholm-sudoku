@@ -12,9 +12,16 @@ import { BoardComponent } from './components/board/board.component';
 import { CellComponent } from './components/cell/cell.component';
 import { EffectsModule } from '@ngrx/effects';
 import { GameEffects } from './store/effects/game.effect';
+import { BoardControlsComponent } from './components/board-controls/board-controls.component';
 
 @NgModule({
-  declarations: [AppComponent, GameComponent, BoardComponent, CellComponent],
+  declarations: [
+    AppComponent,
+    GameComponent,
+    BoardComponent,
+    CellComponent,
+    BoardControlsComponent
+  ],
   imports: [
     BrowserModule,
     StoreModule.forRoot(appReducer),
