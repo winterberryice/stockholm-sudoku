@@ -3,8 +3,7 @@ import { Action } from '@ngrx/store';
 export enum EGameActions {
   NewGame = 'New game',
   SelectCell = 'Select cell',
-  FillCellValue = 'Fill cell value',
-  ClearUserCellValue = 'Clear User Cell Value'
+  FillCellValue = 'Fill cell value'
 }
 
 export class NewGame implements Action {
@@ -30,12 +29,4 @@ export class FillCellValue implements Action {
   constructor(readonly payload: FillCellValuePayload) {}
 }
 
-export class ClearUserCellValue implements Action {
-  public readonly type = EGameActions.ClearUserCellValue;
-}
-
-export type GameActions =
-  | NewGame
-  | SelectCell
-  | FillCellValue
-  | ClearUserCellValue;
+export type GameActions = NewGame | SelectCell | FillCellValue;

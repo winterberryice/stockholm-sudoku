@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/states/app.state';
-import {
-  FillCellValue,
-  ClearUserCellValue
-} from 'src/app/store/actions/game.action';
+import { FillCellValue } from 'src/app/store/actions/game.action';
 import { getNumberUsageInfo } from 'src/app/store/selectors/game.selector';
 import { NumberUsageInfo } from 'src/app/types';
 
@@ -38,7 +35,7 @@ export class BoardControlsComponent implements OnInit {
     if (value !== 0) {
       this._store.dispatch(new FillCellValue({ value }));
     } else {
-      this._store.dispatch(new ClearUserCellValue());
+      this._store.dispatch(new FillCellValue({ value: null }));
     }
   }
 

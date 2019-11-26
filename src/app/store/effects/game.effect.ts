@@ -13,7 +13,7 @@ export class GameEffects {
 
   @Effect()
   selectCell$: Observable<Action> = this.actions$.pipe(
-    ofType(EGameActions.FillCellValue, EGameActions.ClearUserCellValue),
+    ofType(EGameActions.FillCellValue),
     concatMap(action =>
       of(action).pipe(withLatestFrom(this.store$.select(getSelectedPosition)))
     ),

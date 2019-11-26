@@ -14,7 +14,7 @@ export function stateFromFillCellValue(
   if (state.hasSelectedCell) {
     newBoard = produceNewBoard(state.board, cell => {
       let cellValue: number = cell.userValue;
-      if (cell.selected) {
+      if (cell.selected && !cell.readonly) {
         cellValue = value;
       }
       const newCell = { ...cell, userValue: cellValue };

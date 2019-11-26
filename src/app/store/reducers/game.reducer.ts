@@ -4,7 +4,6 @@ import { IGameState } from 'src/app/types';
 import { stateFromNewGame } from './game/stateFromNewGame';
 import { stateFromSelectCell } from './game/stateFromSelectCell';
 import { stateFromFillCellValue } from './game/stateFromFillCellValue';
-import { stateFromClearUserCellValue } from './game/stateFromClearUserCellValue';
 
 export function gameReducer(
   state = initialGameState,
@@ -17,8 +16,6 @@ export function gameReducer(
       return stateFromSelectCell(state, action.payload);
     case EGameActions.FillCellValue:
       return stateFromFillCellValue(state, action.payload);
-    case EGameActions.ClearUserCellValue:
-      return stateFromClearUserCellValue(state);
     default:
       return state;
   }
