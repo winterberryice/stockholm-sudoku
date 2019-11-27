@@ -32,4 +32,5 @@ export interface BoardCell {
   readonly: boolean;
   highlightRowColumnBox: boolean;
   highlightNumber: boolean;
+  hasError: boolean;
 }

@@ -18,7 +18,8 @@ export function stateFromNewGame(state: IGameState): IGameState {
         userValue: null,
         readonly: false,
         highlightRowColumnBox: false,
-        highlightNumber: false
+        highlightNumber: false,
+        hasError: false
       };
     }
   }
