@@ -3,14 +3,16 @@
     class="inline-block"
     *ngFor="let model of controlsModel; trackBy: trackByFn"
   >
-    <div class="px-1">
+    <div style="padding-left: 2px;padding-right: 2px;">
       <button
         [disabled]="getDisabled(model.value)"
-        class="number-button rounded bg-gray-200 px-2 text-3xl text-blue-600"
+        class="number-button rounded bg-gray-200 p-2 text-blue-600"
         (click)="onClick(model.value)"
       >
         <ng-container *ngIf="model.value != 0">
-          {{ model.value }}
+          <span class="h-full">
+            {{ model.value }}
+          </span>
         </ng-container>
         <ng-container *ngIf="model.value == 0">
           <div class="relative">

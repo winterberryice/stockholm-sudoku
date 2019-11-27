@@ -1,0 +1,30 @@
+@import '../../../styles/mixins.scss';
+
+button {
+  line-height: 100%;
+  font-size: 1rem;
+
+  @include rwd(320) {
+    font-size: 1.5rem;
+  }
+
+  @include rwd(350) {
+    font-size: 1.75rem;
+  }
+
+  @include rwd(400) {
+    font-size: 2rem;
+  }
+
+  @include rwd(450) {
+    font-size: 2.25rem;
+  }
+
+  @include rwd(500) {
+    font-size: 2.5rem;
+  }
+
+  @include rwd(600) {
+    font-size: 3rem;
+  }
+}
