@@ -42,9 +42,9 @@ export class CellComponent implements OnInit {
     if (this.boardCell) {
       if (this.boardCell.hasError) {
         if (this.boardCell.selected) {
-          return 'bg-red-600';
+          return 'bg-red-500';
         } else {
-          return 'bg-red-400';
+          return 'bg-red-300';
         }
       } else if (this.boardCell.selected) {
         return 'bg-blue-200';

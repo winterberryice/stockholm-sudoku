@@ -3,25 +3,27 @@
     class="inline-block"
     *ngFor="let model of controlsModel; trackBy: trackByFn"
   >
-    <button
-      [disabled]="getDisabled(model.value)"
-      class="number-button p-2 py-1 text-3xl text-blue-600"
-      (click)="onClick(model.value)"
-    >
-      <ng-container *ngIf="model.value != 0">
-        {{ model.value }}
-      </ng-container>
-      <ng-container *ngIf="model.value == 0">
-        <div class="relative">
-          <div class="opacity-0">
-            {{ model.value }}
+    <div class="px-1">
+      <button
+        [disabled]="getDisabled(model.value)"
+        class="number-button rounded bg-gray-200 px-2 text-3xl text-blue-600"
+        (click)="onClick(model.value)"
+      >
+        <ng-container *ngIf="model.value != 0">
+          {{ model.value }}
+        </ng-container>
+        <ng-container *ngIf="model.value == 0">
+          <div class="relative">
+            <div class="opacity-0">
+              {{ model.value }}
+            </div>
+            <img
+              class="absolute inset-0 w-full h-full"
+              src="../../../assets/delete.svg"
+            />
           </div>
-          <img
-            class="absolute inset-0 w-full h-full"
-            src="../../../assets/delete.svg"
-          />
-        </div>
-      </ng-container>
-    </button>
+        </ng-container>
+      </button>
+    </div>
   </div>
 </div>
