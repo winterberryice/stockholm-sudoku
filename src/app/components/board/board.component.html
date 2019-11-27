@@ -1,21 +1,26 @@
-<div class="flex justify-center p-4">
-  <div class="container-grid">
-    <ng-container
-      *ngFor="let row of board$ | async; trackBy: trackRow; let i = index"
-    >
+<div class="p-4 relative">
+  <div class="max-w-xl relative">
+    <div class="container"></div>
+  </div>
+  <div class="p-4 absolute inset-0 flex justify-center">
+    <div class="w-full h-full max-w-xl container-grid">
       <ng-container
-        *ngFor="let column of row; trackBy: trackItem; let j = index"
+        *ngFor="let row of board$ | async; trackBy: trackRow; let i = index"
       >
-        <div
-          class="cell-container"
-          [ngStyle]="{
-            'grid-row': i + 1,
-            'grid-column': j + 1
-          }"
+        <ng-container
+          *ngFor="let column of row; trackBy: trackItem; let j = index"
         >
-          <app-cell [row]="i" [column]="j"></app-cell>
-        </div>
+          <div
+            class="cell-container"
+            [ngStyle]="{
+              'grid-row': i + 1,
+              'grid-column': j + 1
+            }"
+          >
+            <app-cell [row]="i" [column]="j"></app-cell>
+          </div>
+        </ng-container>
       </ng-container>
-    </ng-container>
+    </div>
   </div>
 </div>

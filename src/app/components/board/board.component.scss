@@ -2,8 +2,6 @@ $board-color: #808080;
 
 .container-grid {
   display: grid;
-  width: 500px;
-  height: 500px;
 }
 
 .cell-container {
@@ -37,4 +35,10 @@ div.container-grid div:nth-child(n + 46):nth-child(-n + 54) {
 }
 div.container-grid div:nth-child(n + 73):nth-child(-n + 81) {
   border-bottom: 2px solid $board-color;
+}
+
+.container {
+  width: 100%;
+  padding-top: 100%; /* 1:1 Aspect Ratio */
+  // position: relative; /* If you want text inside of it */
 }
