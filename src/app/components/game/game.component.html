@@ -1,6 +1,20 @@
 <div class="flex justify-center px-4 pt-4">
+  <div class="pr-4">
+    <span class="pr-1">
+      Difficulty
+    </span>
+    <select
+      class="h-full rounded px-2 bg-gray-400 hover:bg-gray-500 cursor-pointer"
+      (change)="onDifficultyChange($event.target.value)"
+    >
+      <option class="bg-white" *ngFor="let i of difficultyLevels">{{
+        i
+      }}</option>
+    </select>
+  </div>
+
   <button
-    class="py-1 px-2 rounded bg-green-400 hover:bg-green-500"
+    class="py-1 px-2 rounded bg-gray-400 hover:bg-gray-500"
     (click)="onNewGameClick()"
   >
     new game

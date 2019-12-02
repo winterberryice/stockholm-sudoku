@@ -12,11 +12,17 @@ import { NewGame } from 'src/app/store/actions/game.action';
 export class GameComponent implements OnInit {
   counter$ = this._store.pipe(select(selectCounter));
 
+  difficultyLevels = 'easy medium hard'.split(' ');
+
   constructor(private _store: Store<IAppState>) {}
 
   ngOnInit() {}
 
   onNewGameClick() {
     this._store.dispatch(new NewGame());
+  }
+
+  onDifficultyChange(e) {
+    console.log('e: ', e);
   }
 }
