@@ -48,7 +48,6 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._store.dispatch(new NewGame());
     this._keyboardManager.subscribe();
   }
 
