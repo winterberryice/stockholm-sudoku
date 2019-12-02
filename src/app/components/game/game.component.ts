@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/states/app.state';
-import { selectCounter } from '../../store/selectors/game.selector';
+import {
+  selectCounter,
+  getDifficultyLevel
+} from '../../store/selectors/game.selector';
 import { NewGame } from 'src/app/store/actions/game.action';
 import { DifficultyLevel } from 'src/app/types';
 
@@ -21,7 +24,15 @@ export class GameComponent implements OnInit {
   private _selectedItem: DifficultyLevelOption;
 
   constructor(private _store: Store<IAppState>) {
-    this.selectedItem = this.difficultyLevels[0];
+    const difficultyLevel$ = this._store.select(getDifficultyLevel);
+    difficultyLevel$.subscribe(difficultyLevel => {
+      if (this.selectedItem == null) {
+        console.log('set');
+        this.selectedItem = this.difficultyLevels.find(
+          p => p.value === difficultyLevel
+        );
+      }
+    });
   }
 
   ngOnInit() {}
@@ -30,8 +41,9 @@ export class GameComponent implements OnInit {
     return this._selectedItem;
   }
 
-  set selectedItem(value) {
-    this._selectedItem = value;
+  set selectedItem(difficultyLevelOption) {
+    this._selectedItem = difficultyLevelOption;
+    this._store.dispatch(new NewGame({ value: difficultyLevelOption.value }));
   }
 
   onNewGameClick() {

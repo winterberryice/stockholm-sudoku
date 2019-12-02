@@ -1,10 +1,17 @@
 import { IGameState, BoardCell, SIZE } from 'src/app/types';
 import { Sudoku, getRandomInt } from 'src/app/sudoku';
 import { numberUsageInfoHandler } from './numberUsageInfoHandler';
+import { NewGamePayload } from '../../actions/game.action';
 
-export function stateFromNewGame(state: IGameState): IGameState {
+export function stateFromNewGame(
+  state: IGameState,
+  payload: NewGamePayload
+): IGameState {
   const board: BoardCell[][] = [];
-  const { difficultyLevel } = state;
+  let { difficultyLevel } = state;
+  if (payload) {
+    difficultyLevel = payload.value;
+  }
   const valueBoard = new Sudoku().generateBoard();
 
   for (let i = 0; i < SIZE; i++) {
@@ -51,6 +58,7 @@ export function stateFromNewGame(state: IGameState): IGameState {
 
   return {
     ...state,
+    difficultyLevel,
     counter: 0,
     board,
     hasSelectedCell: false,

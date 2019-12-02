@@ -42,3 +42,8 @@ export const getNumberUsageInfo = createSelector(
   (state: IAppState) => state.game,
   (state: IGameState) => state.numberUsageInfo
 );
+
+export const getDifficultyLevel = createSelector(
+  (state: IAppState) => state.game,
+  (state: IGameState) => state.difficultyLevel
+);

@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { DifficultyLevel } from 'src/app/types';
 
 export enum EGameActions {
   NewGame = 'New game',
@@ -6,8 +7,13 @@ export enum EGameActions {
   FillCellValue = 'Fill cell value'
 }
 
+export interface NewGamePayload {
+  value: DifficultyLevel;
+}
+
 export class NewGame implements Action {
   public readonly type = EGameActions.NewGame;
+  constructor(readonly payload?: NewGamePayload) {}
 }
 
 export interface SelectCellActionPayload {

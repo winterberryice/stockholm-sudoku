@@ -11,7 +11,7 @@ export function gameReducer(
 ): IGameState {
   switch (action.type) {
     case EGameActions.NewGame:
-      return stateFromNewGame(state);
+      return stateFromNewGame(state, action.payload);
     case EGameActions.SelectCell:
       return stateFromSelectCell(state, action.payload);
     case EGameActions.FillCellValue:
