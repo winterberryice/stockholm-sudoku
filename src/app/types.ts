@@ -2,7 +2,10 @@ export const SIZE = 9;
 export const DEBUG = false;
 
 export enum DifficultyLevel {
-  easy = 38
+  easy = 38,
+  medium = 30,
+  hard = 25,
+  expert = 22
 }
 
 export interface SelectedPosition {

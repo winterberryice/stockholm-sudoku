@@ -5,14 +5,16 @@
     </span>
     <select
       class="h-full rounded px-2 bg-gray-400 hover:bg-gray-500 cursor-pointer"
-      (change)="onDifficultyChange($event.target.value)"
+      [(ngModel)]="selectedItem"
     >
-      <option class="bg-white" *ngFor="let i of difficultyLevels">{{
-        i
-      }}</option>
+      <option
+        class="bg-white"
+        *ngFor="let dl of difficultyLevels"
+        [ngValue]="dl"
+        >{{ dl.name }}</option
+      >
     </select>
   </div>
-
   <button
     class="py-1 px-2 rounded bg-gray-400 hover:bg-gray-500"
     (click)="onNewGameClick()"
