@@ -47,3 +47,8 @@ export const getDifficultyLevel = createSelector(
   (state: IAppState) => state.game,
   (state: IGameState) => state.difficultyLevel
 );
+
+export const getGameTime = createSelector(
+  (state: IAppState) => state.game,
+  (state: IGameState) => state.gameTime
+);

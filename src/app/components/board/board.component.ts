@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/states/app.state';
-import { NewGame, FillCellValue } from 'src/app/store/actions/game.action';
+import { FillCellValue } from 'src/app/store/actions/game.action';
 import { selectBoard } from 'src/app/store/selectors/game.selector';
 import { BoardCell, DEBUG } from 'src/app/types';
 
@@ -42,7 +42,8 @@ export class BoardComponent implements OnInit, OnDestroy {
     this._keyboardManager = new KeyboardManager(_store);
     _store.subscribe(state => {
       if (DEBUG) {
-        console.log('subscribe: ', state.game);
+        window['state'] = state.game;
+        // console.log('subscribe: ', state.game);
       }
     });
   }
