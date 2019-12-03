@@ -24,6 +24,7 @@ export interface IGameState {
   difficultyLevel: DifficultyLevel;
   selectedPosition: SelectedPosition;
   numberUsageInfo: NumberUsageInfo;
+  gameTime: number;
 }
 
 export interface BoardCell {

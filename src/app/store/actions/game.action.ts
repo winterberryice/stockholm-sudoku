@@ -4,7 +4,8 @@ import { DifficultyLevel } from 'src/app/types';
 export enum EGameActions {
   NewGame = 'New game',
   SelectCell = 'Select cell',
-  FillCellValue = 'Fill cell value'
+  FillCellValue = 'Fill cell value',
+  IncrementGameTime = 'Increment game time'
 }
 
 export interface NewGamePayload {
@@ -35,4 +36,17 @@ export class FillCellValue implements Action {
   constructor(readonly payload: FillCellValuePayload) {}
 }
 
-export type GameActions = NewGame | SelectCell | FillCellValue;
+export interface IncrementGameTimePayload {
+  ticks: number;
+}
+
+export class IncrementGameTime implements Action {
+  public readonly type = EGameActions.IncrementGameTime;
+  constructor(readonly payload?: IncrementGameTimePayload) {}
+}
+
+export type GameActions =
+  | NewGame
+  | SelectCell
+  | FillCellValue
+  | IncrementGameTime;

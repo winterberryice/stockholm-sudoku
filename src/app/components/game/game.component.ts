@@ -5,7 +5,7 @@ import {
   selectCounter,
   getDifficultyLevel
 } from '../../store/selectors/game.selector';
-import { NewGame } from 'src/app/store/actions/game.action';
+import { NewGame, IncrementGameTime } from 'src/app/store/actions/game.action';
 import { DifficultyLevel } from 'src/app/types';
 
 @Component({
@@ -22,12 +22,12 @@ export class GameComponent implements OnInit {
     { name: 'Expert', value: DifficultyLevel.expert }
   ];
   private _selectedItem: DifficultyLevelOption;
+  private timerHandle;
 
   constructor(private _store: Store<IAppState>) {
     const difficultyLevel$ = this._store.select(getDifficultyLevel);
     difficultyLevel$.subscribe(difficultyLevel => {
       if (this.selectedItem == null) {
-        console.log('set');
         this.selectedItem = this.difficultyLevels.find(
           p => p.value === difficultyLevel
         );
@@ -43,11 +43,27 @@ export class GameComponent implements OnInit {
 
   set selectedItem(difficultyLevelOption) {
     this._selectedItem = difficultyLevelOption;
-    this._store.dispatch(new NewGame({ value: difficultyLevelOption.value }));
+    this.startNewGame(difficultyLevelOption.value);
   }
 
   onNewGameClick() {
-    this._store.dispatch(new NewGame());
+    this.startNewGame();
+  }
+
+  startNewGame(difficultyLevel?: DifficultyLevel) {
+    if (difficultyLevel) {
+      this._store.dispatch(new NewGame({ value: difficultyLevel }));
+    } else {
+      this._store.dispatch(new NewGame());
+    }
+
+    this.startGameTimer();
+  }
+
+  startGameTimer() {
+    this.timerHandle = setInterval(() => {
+      this._store.dispatch(new IncrementGameTime());
+    }, 1000);
   }
 }
 

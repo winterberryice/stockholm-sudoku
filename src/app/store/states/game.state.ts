@@ -6,5 +6,6 @@ export const initialGameState: IGameState = {
   hasSelectedCell: false,
   difficultyLevel: DifficultyLevel.easy,
   selectedPosition: null,
-  numberUsageInfo: {}
+  numberUsageInfo: {},
+  gameTime: 0
 };
