@@ -12,6 +12,7 @@ import { CellComponent } from './components/cell/cell.component';
 import { EffectsModule } from '@ngrx/effects';
 import { GameEffects } from './store/effects/game.effect';
 import { BoardControlsComponent } from './components/board-controls/board-controls.component';
+import { GameHeaderComponent } from './components/game-header/game-header.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { BoardControlsComponent } from './components/board-controls/board-contro
     GameComponent,
     BoardComponent,
     CellComponent,
-    BoardControlsComponent
+    BoardControlsComponent,
+    GameHeaderComponent
   ],
   imports: [
     BrowserModule,

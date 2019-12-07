@@ -1,0 +1,43 @@
+<div class="px-4 flex justify-center">
+  <div class="flex flex-wrap justify-center w-full max-w-xl">
+    <div
+      class="w-full flex justify-center items-center pt-4
+      md:w-auto md:justify-start md:flex-1 md:pr-4"
+    >
+      <span class="pr-1 text-gray-700">
+        Difficulty
+      </span>
+      <select
+        class="h-full py-1 rounded px-2 bg-gray-400 hover:bg-gray-500 cursor-pointer text-gray-800"
+        [(ngModel)]="selectedItem"
+      >
+        <option
+          class="bg-white text-gray-800"
+          *ngFor="let dl of difficultyLevels"
+          [ngValue]="dl"
+          >{{ dl.name }}</option
+        >
+      </select>
+    </div>
+    <div
+      class="w-full flex justify-center pt-4
+      md:w-auto md:justify-center md:flex-1"
+    >
+      <span class="pr-1 text-gray-700">Elapsed:</span>
+      <span class="text-gray-900">
+        {{ getElapsedTime() }}
+      </span>
+    </div>
+    <div
+      class="w-full flex justify-center pt-4
+      md:w-auto md:justify-end md:flex-1 md:pl-4"
+    >
+      <button
+        class="py-1 px-2 rounded bg-gray-400 hover:bg-gray-500 text-gray-800"
+        (click)="onNewGameClick()"
+      >
+        New game
+      </button>
+    </div>
+  </div>
+</div>
