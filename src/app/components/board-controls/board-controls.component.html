@@ -6,7 +6,7 @@
     <div style="padding-left: 2px;padding-right: 2px;">
       <button
         [disabled]="getDisabled(model.value)"
-        class="number-button rounded bg-gray-200 p-2 text-blue-600"
+        class="number-button rounded bg-gray-200 hover:bg-gray-300 p-2 text-blue-600"
         (click)="onClick(model.value)"
       >
         <ng-container *ngIf="model.value != 0">
