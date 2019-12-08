@@ -7,6 +7,10 @@ export function stateFromFillCellValue(
   state: IGameState,
   payload: FillCellValuePayload
 ): IGameState {
+  if (state.boardSolved) {
+    return { ...state };
+  }
+
   const { value } = payload;
   let newBoard: BoardCell[][] = state.board;
   const { numberUsageInfo, countCell } = numberUsageInfoHandler();

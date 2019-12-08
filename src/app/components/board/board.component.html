@@ -28,6 +28,11 @@
     *ngIf="boardSolved$ | async"
     class="absolute flex inset-0 items-center justify-center"
   >
-    <div class="rounded bg-gray-200 text-blue-600 p-4">game over</div>
+    <div class="rounded bg-gray-200 text-blue-600 p-4">
+      <div>Board solved in:</div>
+      <div class="flex justify-center text-3xl">
+        {{ gameTime$ | async | formatElapsedTime }}
+      </div>
+    </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!(boardSolved$ | async)">
   <div
     class="inline-block"
     *ngFor="let model of controlsModel; trackBy: trackByFn"

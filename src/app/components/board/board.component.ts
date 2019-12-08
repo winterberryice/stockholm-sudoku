@@ -4,7 +4,8 @@ import { IAppState } from 'src/app/store/states/app.state';
 import { FillCellValue } from 'src/app/store/actions/game.action';
 import {
   selectBoard,
-  isBoardSolved
+  isBoardSolved,
+  getGameTime
 } from 'src/app/store/selectors/game.selector';
 import { BoardCell, DEBUG } from 'src/app/types';
 import { Observable } from 'rxjs';
@@ -42,6 +43,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   board$ = this._store.pipe(select(selectBoard));
   private _keyboardManager: KeyboardManager;
   boardSolved$: Observable<boolean>;
+  gameTime$: Observable<number>;
 
   constructor(private _store: Store<IAppState>) {
     this._keyboardManager = new KeyboardManager(_store);
@@ -52,6 +54,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     });
 
     this.boardSolved$ = this._store.select(isBoardSolved);
+    this.gameTime$ = this._store.select(getGameTime);
   }
 
   ngOnInit() {

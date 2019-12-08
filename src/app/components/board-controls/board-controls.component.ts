@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/states/app.state';
 import { FillCellValue } from 'src/app/store/actions/game.action';
-import { getNumberUsageInfo } from 'src/app/store/selectors/game.selector';
+import {
+  getNumberUsageInfo,
+  isBoardSolved
+} from 'src/app/store/selectors/game.selector';
 import { NumberUsageInfo } from 'src/app/types';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-board-controls',
@@ -13,6 +17,7 @@ import { NumberUsageInfo } from 'src/app/types';
 export class BoardControlsComponent implements OnInit {
   controlsModel: { value: number }[] = [];
   numberUsageInfo: NumberUsageInfo;
+  boardSolved$: Observable<boolean>;
 
   constructor(private _store: Store<IAppState>) {
     for (let i = 1; i <= 10; i++) {
@@ -25,6 +30,8 @@ export class BoardControlsComponent implements OnInit {
     numberUsageInfo$.subscribe(numberUsageInfo => {
       this.numberUsageInfo = numberUsageInfo;
     });
+
+    this.boardSolved$ = this._store.select(isBoardSolved);
   }
 
   trackByFn(index: any, _item: any) {
