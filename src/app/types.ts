@@ -25,6 +25,7 @@ export interface IGameState {
   selectedPosition: SelectedPosition;
   numberUsageInfo: NumberUsageInfo;
   gameTime: number;
+  boardSolved: boolean;
 }
 
 export interface BoardCell {

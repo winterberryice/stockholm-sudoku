@@ -1,4 +1,4 @@
-import { IGameState, BoardCell } from 'src/app/types';
+import { IGameState, BoardCell, NumberUsageInfo } from 'src/app/types';
 import { FillCellValuePayload } from '../../actions/game.action';
 import { numberUsageInfoHandler } from './numberUsageInfoHandler';
 import { produceNewBoard } from './produceNewBoard';
@@ -27,12 +27,13 @@ export function stateFromFillCellValue(
     });
   }
 
-  checkErrors(newBoard);
+  const errorCount = checkErrors(newBoard);
+  const boardSolved = checkBoardSolved(errorCount, numberUsageInfo);
 
-  return { ...state, board: newBoard, numberUsageInfo };
+  return { ...state, board: newBoard, numberUsageInfo, boardSolved };
 }
 
-function checkErrors(grid: BoardCell[][]) {
+function checkErrors(grid: BoardCell[][]): number {
   function cellHasConflicts(row: number, col: number): boolean {
     function _isRowOk() {
       for (let _col = 0; _col < 9; _col++) {
@@ -86,9 +87,27 @@ function checkErrors(grid: BoardCell[][]) {
     return true;
   }
 
+  let errorCount = 0;
+
   grid.forEach(row => {
     row.forEach(cell => {
       cell.hasError = cellHasConflicts(cell.row, cell.column);
+      if (cell.hasError) {
+        errorCount++;
+      }
     });
   });
+
+  return errorCount;
+}
+
+function checkBoardSolved(
+  errorCount: number,
+  numberUsageInfo: NumberUsageInfo
+): boolean {
+  if (errorCount > 0) {
+    return false;
+  }
+  const values = Object.values(numberUsageInfo);
+  return values.every(value => value === 9);
 }

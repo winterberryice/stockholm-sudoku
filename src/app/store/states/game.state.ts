@@ -7,5 +7,6 @@ export const initialGameState: IGameState = {
   difficultyLevel: DifficultyLevel.easy,
   selectedPosition: null,
   numberUsageInfo: {},
-  gameTime: 0
+  gameTime: 0,
+  boardSolved: false
 };

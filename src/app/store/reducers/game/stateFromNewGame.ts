@@ -63,6 +63,7 @@ export function stateFromNewGame(
     board,
     hasSelectedCell: false,
     numberUsageInfo,
-    gameTime: 0
+    gameTime: 0,
+    boardSolved: false
   };
 }
