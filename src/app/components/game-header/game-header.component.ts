@@ -45,7 +45,6 @@ export class GameHeaderComponent implements OnInit {
     const boardSolved$ = this._store.select(isBoardSolved);
     boardSolved$.subscribe(boardSolved => {
       if (boardSolved) {
-        console.warn('stopped timer');
         this.stopTimer();
       }
     });
