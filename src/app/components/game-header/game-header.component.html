@@ -23,7 +23,7 @@
     >
       <span class="pr-1 text-gray-700">Elapsed:</span>
       <span class="text-gray-900">
-        {{ getElapsedTime() }}
+        {{ gameTime$ | async | formatElapsedTime }}
       </span>
     </div>
     <div

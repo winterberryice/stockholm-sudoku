@@ -13,6 +13,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { GameEffects } from './store/effects/game.effect';
 import { BoardControlsComponent } from './components/board-controls/board-controls.component';
 import { GameHeaderComponent } from './components/game-header/game-header.component';
+import { FormatElapsedTimePipe } from './pipes/format-elapsed-time/format-elapsed-time.pipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { GameHeaderComponent } from './components/game-header/game-header.compon
     BoardComponent,
     CellComponent,
     BoardControlsComponent,
-    GameHeaderComponent
+    GameHeaderComponent,
+    FormatElapsedTimePipe
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,7 @@ import {
 import { DifficultyLevel } from 'src/app/types';
 import { IAppState } from 'src/app/store/states/app.state';
 import { NewGame, IncrementGameTime } from 'src/app/store/actions/game.action';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-game-header',
@@ -24,9 +25,8 @@ export class GameHeaderComponent implements OnInit {
     { name: 'Expert', value: DifficultyLevel.expert }
   ];
   private _selectedItem: DifficultyLevelOption;
-  // private boardSolved: boolean;
   private timerHandle;
-  gameTime: number;
+  gameTime$: Observable<number>;
 
   constructor(private _store: Store<IAppState>) {}
 
@@ -40,10 +40,7 @@ export class GameHeaderComponent implements OnInit {
       }
     });
 
-    const gameTime$ = this._store.select(getGameTime);
-    gameTime$.subscribe(gameTime => {
-      this.gameTime = gameTime;
-    });
+    this.gameTime$ = this._store.select(getGameTime);
 
     const boardSolved$ = this._store.select(isBoardSolved);
     boardSolved$.subscribe(boardSolved => {
@@ -89,31 +86,6 @@ export class GameHeaderComponent implements OnInit {
     if (this.timerHandle != null) {
       clearInterval(this.timerHandle);
     }
-  }
-
-  getElapsedTime() {
-    return display(this.gameTime);
-  }
-}
-
-function pad(num: number | string, size: number) {
-  let s = String(num);
-  while (s.length < (size || 2)) {
-    s = '0' + s;
-  }
-  return s;
-}
-
-function display(seconds: number) {
-  const d = Number(seconds);
-  const h = Math.floor(d / 3600);
-  const m = Math.floor((d % 3600) / 60);
-  const s = Math.floor((d % 3600) % 60);
-
-  if (h > 0) {
-    return `${pad(h, 2)}:${pad(m, 2)}:${pad(s, 2)}`;
-  } else {
-    return `${pad(m, 2)}:${pad(s, 2)}`;
   }
 }
 
