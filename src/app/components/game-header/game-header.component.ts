@@ -3,7 +3,8 @@ import { select, Store } from '@ngrx/store';
 import {
   selectCounter,
   getDifficultyLevel,
-  getGameTime
+  getGameTime,
+  isBoardSolved
 } from 'src/app/store/selectors/game.selector';
 import { DifficultyLevel } from 'src/app/types';
 import { IAppState } from 'src/app/store/states/app.state';
@@ -23,6 +24,7 @@ export class GameHeaderComponent implements OnInit {
     { name: 'Expert', value: DifficultyLevel.expert }
   ];
   private _selectedItem: DifficultyLevelOption;
+  // private boardSolved: boolean;
   private timerHandle;
   gameTime: number;
 
@@ -41,6 +43,14 @@ export class GameHeaderComponent implements OnInit {
     const gameTime$ = this._store.select(getGameTime);
     gameTime$.subscribe(gameTime => {
       this.gameTime = gameTime;
+    });
+
+    const boardSolved$ = this._store.select(isBoardSolved);
+    boardSolved$.subscribe(boardSolved => {
+      if (boardSolved) {
+        console.warn('stopped timer');
+        this.stopTimer();
+      }
     });
   }
 

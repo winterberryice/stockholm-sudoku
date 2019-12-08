@@ -52,3 +52,8 @@ export const getGameTime = createSelector(
   (state: IAppState) => state.game,
   (state: IGameState) => state.gameTime
 );
+
+export const isBoardSolved = createSelector(
+  (state: IAppState) => state.game,
+  (state: IGameState) => state.boardSolved
+);

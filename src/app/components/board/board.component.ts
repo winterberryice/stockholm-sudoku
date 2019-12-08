@@ -2,8 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/states/app.state';
 import { FillCellValue } from 'src/app/store/actions/game.action';
-import { selectBoard } from 'src/app/store/selectors/game.selector';
+import {
+  selectBoard,
+  isBoardSolved
+} from 'src/app/store/selectors/game.selector';
 import { BoardCell, DEBUG } from 'src/app/types';
+import { Observable } from 'rxjs';
 
 class KeyboardManager {
   constructor(private _store: Store<IAppState>) {
@@ -37,15 +41,17 @@ class KeyboardManager {
 export class BoardComponent implements OnInit, OnDestroy {
   board$ = this._store.pipe(select(selectBoard));
   private _keyboardManager: KeyboardManager;
+  boardSolved$: Observable<boolean>;
 
   constructor(private _store: Store<IAppState>) {
     this._keyboardManager = new KeyboardManager(_store);
     _store.subscribe(state => {
       if (DEBUG) {
         window['state'] = state.game;
-        // console.log('subscribe: ', state.game);
       }
     });
+
+    this.boardSolved$ = this._store.select(isBoardSolved);
   }
 
   ngOnInit() {
